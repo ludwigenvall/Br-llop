@@ -35,6 +35,32 @@ function startCountdown() {
 startCountdown();
 
 // ============================================
+// TEMAVÄXLARE
+// Klick på 🎨-knappen cyklar igenom fem teman och sparar valet
+// i webbläsaren (localStorage) så det finns kvar vid nästa besök.
+// "classic" = standardtemat (tomt data-theme, dvs. färgerna i :root).
+// ============================================
+const THEMES = ["classic", "sage", "rose", "midnight", "terracotta", "ocean"];
+
+function applyTheme(theme) {
+    if (theme === "classic") {
+        document.documentElement.removeAttribute("data-theme");
+    } else {
+        document.documentElement.setAttribute("data-theme", theme);
+    }
+    localStorage.setItem("wedding-theme", theme);
+}
+
+const themeToggle = document.getElementById("themeToggle");
+if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+        const current = localStorage.getItem("wedding-theme") || "classic";
+        const nextIndex = (THEMES.indexOf(current) + 1) % THEMES.length;
+        applyTheme(THEMES[nextIndex]);
+    });
+}
+
+// ============================================
 // PWA: registrera service worker
 // Detta gör att sidan kan cachas och "installeras" på hemskärmen.
 // ============================================

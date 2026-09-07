@@ -20,6 +20,67 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ============================================
+   TEMAN
+   Varje tema skriver bara över färgvariablerna ovan.
+   Byt tema genom att sätta data-theme="..." på <html> (sköts av main.js).
+   ============================================ */
+
+/* Sage - mjuk grön/salvia känsla */
+[data-theme="sage"] {
+    --color-white: #ffffff;
+    --color-beige: #eef1e9;
+    --color-champagne: #dde5d3;
+    --color-grey: #dfe3da;
+    --color-text: #2f342a;
+    --color-text-soft: #6d7566;
+    --color-accent: #7c8f6a;
+}
+
+/* Dusty Rose - varm rosa/puder */
+[data-theme="rose"] {
+    --color-white: #ffffff;
+    --color-beige: #f7ecec;
+    --color-champagne: #eed7d7;
+    --color-grey: #e8dcdc;
+    --color-text: #3a2b2b;
+    --color-text-soft: #8a6f6f;
+    --color-accent: #c98a8a;
+}
+
+/* Midnight - mörkblått & guld, mer dramatisk känsla */
+[data-theme="midnight"] {
+    --color-white: #1c2333;
+    --color-beige: #171d2b;
+    --color-champagne: #232b40;
+    --color-grey: #2a3347;
+    --color-text: #f2eee4;
+    --color-text-soft: #b7bccb;
+    --color-accent: #d4af6a;
+}
+
+/* Terracotta - varm höst/solnedgång */
+[data-theme="terracotta"] {
+    --color-white: #ffffff;
+    --color-beige: #f7ede3;
+    --color-champagne: #f0d5be;
+    --color-grey: #e9ddd0;
+    --color-text: #3a2a1f;
+    --color-text-soft: #8a6f5a;
+    --color-accent: #c1683f;
+}
+
+/* Ocean - kylig blå/turkos, fräsch känsla */
+[data-theme="ocean"] {
+    --color-white: #ffffff;
+    --color-beige: #eaf2f2;
+    --color-champagne: #d6e6e6;
+    --color-grey: #dde6e6;
+    --color-text: #223333;
+    --color-text-soft: #5f7a7a;
+    --color-accent: #4f9a9a;
+}
+
 body {
     font-family: var(--font-body);
     color: var(--color-text);
@@ -74,6 +135,19 @@ a { color: inherit; text-decoration: none; }
 }
 
 .topnav-links a:hover { background: var(--color-beige); }
+
+.theme-toggle {
+    background: var(--color-beige);
+    border: 1px solid var(--color-grey);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    padding: 0.35rem 0.6rem;
+    cursor: pointer;
+    line-height: 1;
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle:hover { transform: scale(1.08); }
 
 /* Mobilanpassad meny: dölj länkarna bakom hamburgarknappen på små skärmar */
 @media (max-width: 780px) {

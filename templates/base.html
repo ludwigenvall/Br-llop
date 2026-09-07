@@ -9,6 +9,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    {# Sätter sparat tema INNAN sidan ritas upp, så det inte "blinkar"
+       till standardtemat en bråkdels sekund vid varje sidladdning. #}
+    <script>
+        (function () {
+            const saved = localStorage.getItem("wedding-theme");
+            if (saved) document.documentElement.setAttribute("data-theme", saved);
+        })();
+    </script>
+
+
     <title>{% block title %}{{ settings.site_title }}{% endblock %}</title>
     <meta name="description" content="{{ settings.meta_description }}">
 
@@ -38,7 +48,17 @@
         <button class="topnav-toggle" onclick="document.querySelector('.topnav-links').classList.toggle('open')" aria-label="Meny">☰</button>
         <div class="topnav-links">
             <a href="/">Hem</a>
+            <a href="/schema">Schema</a>
+            <a href="/ceremoni">Ceremoni</a>
+            <a href="/hitta-hit">Hitta hit</a>
+            <a href="/boende">Boende</a>
+            <a href="/mat-dryck">Mat &amp; Dryck</a>
+            <a href="/kladkod">Klädkod</a>
+            <a href="/onskelista">Önskelista</a>
+            <a href="/galleri">Galleri</a>
             <a href="/osa">OSA</a>
+            <a href="/faq">FAQ</a>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Byt tema" title="Byt tema">🎨</button>
         </div>
     </nav>
 

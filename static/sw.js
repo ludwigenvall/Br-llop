@@ -6,7 +6,7 @@
 // i CSS/JS, så att webbläsaren hämtar de nya filerna istället för gamla
 // cachade versioner.
 
-const CACHE_NAME = "broellop-v1";
+const CACHE_NAME = "broellop-v2";
 const URLS_TO_CACHE = [
     "/",
     "/static/css/style.css",
