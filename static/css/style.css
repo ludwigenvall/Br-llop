@@ -100,6 +100,7 @@ a { color: inherit; text-decoration: none; }
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     padding: 1.2rem 1.5rem;
     background: var(--color-white);
     box-shadow: var(--shadow);
@@ -159,6 +160,7 @@ a { color: inherit; text-decoration: none; }
         margin-top: 1rem;
     }
     .topnav-links.open { display: flex; }
+    .topnav-links .theme-toggle { align-self: flex-start; margin-top: 0.4rem; }
 }
 
 /* ============================================
