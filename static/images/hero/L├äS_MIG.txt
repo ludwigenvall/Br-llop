@@ -1,0 +1,2 @@
+Lägg er hero-bild här, t.ex. hero.jpg.
+Peka sedan på den i static/css/style.css under .hero { background-image: url('/static/images/hero/hero.jpg'); }

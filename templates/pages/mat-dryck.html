@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Mat &amp; Dryck – {{ settings.site_title }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <a href="/" class="back-link">← Tillbaka</a>
+    <h1>{{ wedding.food.title }}</h1>
+</section>
+
+<section class="info-cards">
+    <div class="info-card">
+        <p>{{ wedding.food.description }}</p>
+    </div>
+</section>
+{% endblock %}

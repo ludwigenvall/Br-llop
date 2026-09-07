@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Galleri – {{ settings.site_title }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <a href="/" class="back-link">← Tillbaka</a>
+    <h1>Galleri</h1>
+</section>
+
+<section class="gallery-grid">
+    {% for image in gallery.images %}
+    {# loading="lazy" gör att bilder utanför skärmen inte laddas förrän
+       användaren scrollar dit - snabbare sidladdning på mobilnät #}
+    <img
+        src="/static/images/gallery/{{ image.filename }}"
+        alt="{{ image.alt }}"
+        loading="lazy"
+        class="gallery-image"
+    >
+    {% endfor %}
+</section>
+{% endblock %}

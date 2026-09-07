@@ -1,0 +1,48 @@
+{
+  "_kommentar": "Ändra all text nedan till er egen information. Radera inte kommentarfälten (de som börjar med _) - de påverkar inget, men förklarar vad fälten betyder.",
+
+  "couple_names": "Ebba & Axel",
+  "date": "2027-07-10",
+  "date_display": "10 juli 2027",
+
+  "ceremony": {
+    "_kommentar": "Information om själva vigseln",
+    "location_name": "[VIGSELPLATS]",
+    "address": "[ADRESS TILL VIGSELPLATS]",
+    "time": "XX:XX"
+  },
+
+  "party": {
+    "_kommentar": "Information om festen efter vigseln",
+    "location_name": "[FESTLOKAL]",
+    "address": "[ADRESS TILL FESTLOKAL]",
+    "time": "18:00"
+  },
+
+  "welcome_text": "Vi är så glada att få fira vår dag tillsammans med er! Här hittar ni all information ni behöver inför bröllopet.",
+
+  "dress_code": {
+    "title": "Klädkod",
+    "description": "[BESKRIV KLÄDKOD, t.ex. 'Kavaj / Sommarklänning']"
+  },
+
+  "accommodation": {
+    "title": "Boende",
+    "description": "[TIPS PÅ HOTELL/BOENDE I NÄRHETEN]"
+  },
+
+  "food": {
+    "title": "Mat & dryck",
+    "description": "[BESKRIV MENY, ALLERGIER, DRYCKESPAKET OSV.]"
+  },
+
+  "registry": {
+    "title": "Önskelista",
+    "description": "[BESKRIV ER ÖNSKELISTA ELLER LÄNK TILL DEN]"
+  },
+
+  "directions": {
+    "title": "Hitta hit",
+    "description": "[VÄGBESKRIVNING, PARKERING, KOLLEKTIVTRAFIK]"
+  }
+}

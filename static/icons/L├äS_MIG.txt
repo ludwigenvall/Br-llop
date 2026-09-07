@@ -1,0 +1,6 @@
+Lägg PWA-ikoner här:
+- icon-192.png (192x192 px)
+- icon-512.png (512x512 px)
+- favicon.ico
+
+Tips: https://realfavicongenerator.net genererar alla storlekar automatiskt från en bild.

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{# {% extends %} betyder: "använd base.html som ram, jag fyller bara i content-blocket" #}
+
+{% block content %}
+
+<section class="hero">
+    {# Kommentar: byt ut bakgrundsbilden genom att lägga en fil i
+       static/images/hero/ och peka på den i style.css (.hero { background-image: ... }) #}
+    <h1 class="hero-names">{{ wedding.couple_names }}</h1>
+    <p class="hero-date">{{ wedding.date_display }}</p>
+    <p class="hero-location">{{ wedding.party.location_name }}</p>
+    <p class="hero-welcome">{{ wedding.welcome_text }}</p>
+
+    <div class="countdown" id="countdown" data-date="{{ wedding.date }}">
+        <div class="countdown-item"><span id="cd-days">–</span><small>dagar</small></div>
+        <div class="countdown-item"><span id="cd-hours">–</span><small>timmar</small></div>
+        <div class="countdown-item"><span id="cd-minutes">–</span><small>minuter</small></div>
+    </div>
+</section>
+
+{% endblock %}

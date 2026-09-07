@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Schema – {{ settings.site_title }}{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <a href="/" class="back-link">← Tillbaka</a>
+    <h1>Schema</h1>
+</section>
+
+<section class="info-cards">
+    {% for event in schedule.events %}
+    <div class="info-card">
+        <span class="info-card-time">{{ event.time }}</span>
+        <h2>{{ event.title }}</h2>
+        <p>{{ event.description }}</p>
+    </div>
+    {% endfor %}
+</section>
+{% endblock %}
