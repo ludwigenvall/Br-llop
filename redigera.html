@@ -8,7 +8,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✏️</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&family=Great+Vibes&family=DM+Serif+Display&family=Playfair+Display:ital,wght@0,500;1,500&family=Marcellus&family=Fraunces:ital,opsz,wght@1,9..144,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/redigera.css">
 </head>
 <body>
@@ -91,7 +91,8 @@
     </header>
 
     <nav class="flikar" role="tablist">
-        <button role="tab" data-flik="text" aria-selected="true">Text</button>
+        <button role="tab" data-flik="innehall" aria-selected="true">Innehåll</button>
+        <button role="tab" data-flik="utseende">Utseende</button>
         <button role="tab" data-flik="grundinfo">Grundinfo</button>
         <button role="tab" data-flik="osa">OSA</button>
         <button role="tab" data-flik="bilder">Bilder</button>
@@ -99,23 +100,59 @@
         <button role="tab" data-flik="forhandsvisa" class="bara-mobil">Förhandsvisa</button>
     </nav>
 
-    <div class="arbetsyta" id="arbetsyta" data-aktiv="text">
+    <div class="arbetsyta" id="arbetsyta" data-aktiv="innehall">
         <div class="panel-yta">
 
-            <!-- TEXT -->
-            <div class="panel" data-panel="text">
-                <div class="verktyg" id="verktyg">
-                    <button type="button" data-gor="rubrik" title="Ny del på sidan (syns i menyn)">Ny del</button>
-                    <button type="button" data-gor="kort" title="Mindre rubrik i ett eget kort">Kort</button>
-                    <button type="button" data-gor="fet" title="Fetstil"><b>F</b></button>
-                    <button type="button" data-gor="kursiv" title="Kursiv"><i>K</i></button>
-                    <button type="button" data-gor="lista" title="Punktlista">• Lista</button>
-                    <button type="button" data-gor="lank" title="Länk">Länk</button>
-                    <button type="button" data-gor="knapp" title="Knapp (länk på egen rad)">Knapp</button>
-                    <button type="button" data-gor="bild" title="Lägg in en bild">Bild</button>
+            <!-- INNEHÅLL -->
+            <div class="panel" data-panel="innehall">
+                <div id="enkel-vy">
+                    <p class="liten mjuk intro">Varje ruta är en del på hemsidan. Ändra texten direkt, och tryck
+                       <strong>+ Lägg till bilder</strong> för att visa bilder i en del.</p>
+                    <div id="delar"></div>
+                    <button class="knapp sekundar bred" type="button" id="ny-del">+ Lägg till en ny del</button>
+                    <p class="liten mjuk centrerad"><button class="lank" type="button" id="till-avancerat">Redigera all text på en gång (avancerat)</button></p>
                 </div>
-                <textarea id="text" spellcheck="true" aria-label="Hemsidans text"></textarea>
-                <p class="liten mjuk">Varje <code>## Rubrik</code> blir en del på sidan. Se fliken <em>Hjälp</em> för fler tips.</p>
+                <div id="avancerad-vy" hidden>
+                    <p class="liten"><button class="lank" type="button" id="till-enkel">← Tillbaka till den enkla vyn</button></p>
+                    <div class="verktyg" data-verktyg-for="text">
+                        <button type="button" data-gor="rubrik" title="Ny del på sidan (syns i menyn)">Ny del</button>
+                        <button type="button" data-gor="kort" title="Mindre rubrik i ett eget kort">Underrubrik</button>
+                        <button type="button" data-gor="fet" title="Fetstil"><b>F</b></button>
+                        <button type="button" data-gor="kursiv" title="Kursiv"><i>K</i></button>
+                        <button type="button" data-gor="lista" title="Punktlista">• Lista</button>
+                        <button type="button" data-gor="lank" title="Länk">Länk</button>
+                        <button type="button" data-gor="knapp" title="Knapp (länk på egen rad)">Knapp</button>
+                        <button type="button" data-gor="bild" title="Lägg in en bild">Bild</button>
+                    </div>
+                    <textarea id="text" spellcheck="true" aria-label="Hemsidans text"></textarea>
+                    <p class="liten mjuk">Varje <code>## Rubrik</code> blir en del på sidan. Se fliken <em>Hjälp</em> för fler tips.</p>
+                </div>
+            </div>
+
+            <!-- UTSEENDE -->
+            <div class="panel" data-panel="utseende" hidden>
+                <h2>Färdiga förslag</h2>
+                <p class="liten mjuk">Tryck på ett förslag för att prova det. Ni kan sedan justera stil och färg var för sig nedan.</p>
+                <div class="forslag" id="forslag"></div>
+
+                <h2>Stil</h2>
+                <p class="liten mjuk">Typsnitt och dekorationer.</p>
+                <div class="stilar" id="stilar"></div>
+
+                <h2>Färg</h2>
+                <div class="teman" id="teman"></div>
+
+                <h2>Omslagsbild</h2>
+                <p class="liten mjuk">Visas bakom namnen högst upp. Välj en liggande bild.</p>
+                <div class="omslag" id="omslag"></div>
+                <div class="rad">
+                    <button class="knapp sekundar" type="button" id="valj-omslag">Ladda upp bild…</button>
+                    <button class="lank" type="button" id="ta-bort-omslag">Ta bort omslagsbilden</button>
+                </div>
+                <div id="omslag-val-yta" hidden>
+                    <p class="liten mjuk">…eller välj en av era uppladdade bilder:</p>
+                    <div class="omslag-val" id="omslag-val"></div>
+                </div>
             </div>
 
             <!-- GRUNDINFO -->
@@ -139,19 +176,6 @@
                     <input data-falt="plats">
                 </label>
 
-                <fieldset>
-                    <legend>Färgtema</legend>
-                    <div class="teman" id="teman"></div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Omslagsbild högst upp</legend>
-                    <div class="omslag" id="omslag"></div>
-                    <div class="rad">
-                        <button class="knapp sekundar" type="button" id="valj-omslag">Välj bild…</button>
-                        <button class="lank" type="button" id="ta-bort-omslag">Ta bort bild</button>
-                    </div>
-                </fieldset>
             </div>
 
             <!-- OSA -->
@@ -222,31 +246,42 @@
 
             <!-- BILDER -->
             <div class="panel" data-panel="bilder" hidden>
-                <h2>Bilder</h2>
-                <p class="liten mjuk">Bilderna förminskas automatiskt innan de laddas upp.</p>
-                <button class="knapp" type="button" id="ladda-upp">Ladda upp bilder…</button>
+                <h2>Alla bilder</h2>
+                <p class="liten mjuk">Här finns alla uppladdade bilder. Det enklaste sättet att lägga in en bild
+                   är annars att trycka <strong>+ Lägg till bilder</strong> i den del där den ska synas, under <em>Innehåll</em>.</p>
+                <div class="slappyta" id="slappyta">
+                    <button class="knapp" type="button" id="ladda-upp">Ladda upp bilder…</button>
+                    <p class="liten mjuk bara-dator">…eller dra och släpp bilder här</p>
+                </div>
                 <p class="liten" id="uppladdning-status" role="status"></p>
                 <div class="bildgalleri" id="bildgalleri"></div>
             </div>
 
             <!-- HJÄLP -->
             <div class="panel" data-panel="hjalp" hidden>
-                <h2>Så skriver man</h2>
+                <h2>Snabbguide</h2>
+                <ul class="hjalplista">
+                    <li><strong>Ändra text:</strong> skriv direkt i rutorna under <em>Innehåll</em>. Tryck <strong>Spara</strong> när ni är klara.</li>
+                    <li><strong>Lägg till bilder:</strong> tryck <strong>+ Lägg till bilder</strong> i den del där bilderna ska synas, eller dra in dem i rutan. En bild visas stort, flera blir ett galleri. Gästerna kan trycka på bilderna för att se dem i stort format.</li>
+                    <li><strong>Ny del:</strong> tryck <strong>+ Lägg till en ny del</strong> längst ner. Varje del får en egen knapp i menyn.</li>
+                    <li><strong>Byt ordning:</strong> använd pilarna ↑ ↓ i hörnet på varje del.</li>
+                    <li><strong>Byt utseende:</strong> fliken <em>Utseende</em>. Prova ett färdigt förslag eller välj stil och färg själva.</li>
+                    <li><strong>Ångra:</strong> alla tidigare versioner sparas, så inget går att förstöra på riktigt.</li>
+                </ul>
+                <p>Ändringarna syns på hemsidan ungefär en minut efter att ni tryckt <strong>Spara</strong>.</p>
+
+                <h2>Formatera text</h2>
+                <p class="liten mjuk">Knapparna ovanför varje textruta gör det här åt er, men så här ser det ut:</p>
                 <table class="hjalptabell">
-                    <tr><td><code>## Boende</code></td><td>En ny del på sidan + i menyn</td></tr>
-                    <tr><td><code>### Hotell Strand</code></td><td>Mindre rubrik i ett eget kort</td></tr>
                     <tr><td><code>**viktigt**</code></td><td><strong>fetstil</strong></td></tr>
                     <tr><td><code>*kursivt*</code></td><td><em>kursiv</em></td></tr>
                     <tr><td><code>- något</code></td><td>punktlista</td></tr>
                     <tr><td><code>- **15:00** Vigsel</code></td><td>rad i ett schema</td></tr>
+                    <tr><td><code>### Hotell Strand</code></td><td>underrubrik i ett eget kort</td></tr>
                     <tr><td><code>[Boka](https://…)</code></td><td>länk</td></tr>
                     <tr><td><code>[Boka](https://…)</code> på egen rad</td><td>knapp</td></tr>
-                    <tr><td><code>![Text](bilder/foto.jpg)</code></td><td>bild</td></tr>
                 </table>
-                <p>En ny rad blir en ny rad på sidan. En tom rad emellan blir ett nytt stycke.
-                   Delarna visas i samma ordning som i texten.</p>
-                <p>Ändringarna syns på hemsidan ungefär en minut efter att ni tryckt <strong>Spara</strong>.
-                   Alla tidigare versioner sparas, så inget går att förstöra på riktigt.</p>
+                <p class="liten">En ny rad blir en ny rad på sidan. En tom rad emellan blir ett nytt stycke.</p>
             </div>
         </div>
 

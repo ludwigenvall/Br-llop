@@ -18,13 +18,44 @@
         iterationer: 600000
     };
 
+    var STILAR = [
+        { id: "klassisk", namn: "Klassisk", text: "Tidlös och elegant", font: "'Cormorant Garamond', serif", vikt: 500 },
+        { id: "romantisk", namn: "Romantisk", text: "Handskrivna namn och hjärtan", font: "'Great Vibes', cursive", vikt: 400, storlek: 1.35 },
+        { id: "modern", namn: "Modern", text: "Stram, luftig och vänsterställd", font: "'DM Serif Display', serif", vikt: 400 },
+        { id: "botanisk", namn: "Botanisk", text: "Med små lövkvistar", font: "'Playfair Display', serif", vikt: 500, kursiv: true },
+        { id: "artdeco", namn: "Art deco", text: "Ramar, versaler och romber", font: "'Marcellus', serif", vikt: 400, versaler: true, storlek: 0.8 },
+        { id: "lekfull", namn: "Lekfull", text: "Mjuka former och vågor", font: "'Fraunces', serif", vikt: 600, kursiv: true }
+    ];
+
     var TEMAN = [
-        { id: "klassisk", namn: "Klassisk", farger: ["#f5f0e8", "#9c7c4c"] },
-        { id: "salvia", namn: "Salvia", farger: ["#eef1e9", "#5f7350"] },
-        { id: "ros", namn: "Ros", farger: ["#f7ecec", "#a8646a"] },
-        { id: "natt", namn: "Natt", farger: ["#171d2b", "#d4af6a"] },
-        { id: "terrakotta", namn: "Terrakotta", farger: ["#f7ede3", "#b05a33"] },
-        { id: "hav", namn: "Hav", farger: ["#eaf2f2", "#3a7f80"] }
+        { id: "klassisk", namn: "Klassisk", bakgrund: "#f5f0e8", accent: "#9c7c4c", text: "#2b2825" },
+        { id: "champagne", namn: "Champagne", bakgrund: "#faf6ee", accent: "#8a6d2f", text: "#2d2a24" },
+        { id: "sand", namn: "Sand", bakgrund: "#f4efe6", accent: "#7a6649", text: "#3b352c" },
+        { id: "salvia", namn: "Salvia", bakgrund: "#eef1e9", accent: "#5f7350", text: "#2f342a" },
+        { id: "ros", namn: "Ros", bakgrund: "#f7ecec", accent: "#a8646a", text: "#3a2b2b" },
+        { id: "lavendel", namn: "Lavendel", bakgrund: "#f3f0f7", accent: "#6f5a94", text: "#2e2a38" },
+        { id: "terrakotta", namn: "Terrakotta", bakgrund: "#f7ede3", accent: "#b05a33", text: "#3a2a1f" },
+        { id: "bordeaux", namn: "Bordeaux", bakgrund: "#f8f1ee", accent: "#7d2934", text: "#33201f" },
+        { id: "hav", namn: "Hav", bakgrund: "#eaf2f2", accent: "#3a7f80", text: "#223333" },
+        { id: "himmel", namn: "Himmel", bakgrund: "#eef3f9", accent: "#3a5c8f", text: "#1f2a3a" },
+        { id: "svartvit", namn: "Svartvit", bakgrund: "#ffffff", accent: "#111111", text: "#111111" },
+        { id: "natt", namn: "Natt", bakgrund: "#171d2b", accent: "#d4af6a", text: "#f2eee4" },
+        { id: "skog", namn: "Skog", bakgrund: "#1e2a23", accent: "#cbb27a", text: "#eef0e8" }
+    ];
+
+    var FORSLAG = [
+        { namn: "Klassisk elegans", stil: "klassisk", tema: "klassisk" },
+        { namn: "Sommaräng", stil: "botanisk", tema: "salvia" },
+        { namn: "Romantisk ros", stil: "romantisk", tema: "ros" },
+        { namn: "Slottsbröllop", stil: "artdeco", tema: "natt" },
+        { namn: "Skärgård", stil: "modern", tema: "hav" },
+        { namn: "Höstfest", stil: "klassisk", tema: "terrakotta" },
+        { namn: "Skogsbröllop", stil: "botanisk", tema: "skog" },
+        { namn: "Champagne", stil: "artdeco", tema: "champagne" },
+        { namn: "Avskalat", stil: "modern", tema: "svartvit" },
+        { namn: "Lavendelfält", stil: "romantisk", tema: "lavendel" },
+        { namn: "Trädgårdsfest", stil: "lekfull", tema: "sand" },
+        { namn: "Vinkällare", stil: "klassisk", tema: "bordeaux" }
     ];
 
     var TOKEN_NYCKEL = "brollop-redigera-token";
@@ -364,6 +395,7 @@
         hamtaFil(KONFIG.innehall).then(function (fil) {
             laddaIn(fil);
             visaSkarm("skarm-redigera");
+            autoHojd();
             uppdateraForhandsvisning();
         }).catch(function (fel) {
             console.error(fel);
@@ -381,8 +413,10 @@
         tillstand.sparad = byggFil();
 
         $("#text").value = tillstand.text;
+        tolkaText(tillstand.text);
+        visaDelar();
         $$("[data-falt]").forEach(function (input) { input.value = hamtaInst(input.dataset.falt); });
-        visaTeman();
+        visaUtseende();
         visaOmslag();
         visaOsa();
         andrat();
@@ -408,11 +442,19 @@
             { typ: "forhandsvisa", text: byggFil(), bilder: tillstand.lokalaBilder }, location.origin);
     }
 
+    function scrollaForhandsvisning(rubrik) {
+        if (!forhandsvisningRedo) return;
+        $("#forhandsvisning").contentWindow.postMessage({ typ: "scrolla", id: skapaId(rubrik) }, location.origin);
+    }
+
+    function forhandsvisningKlar() {
+        if (forhandsvisningRedo) return;
+        forhandsvisningRedo = true;
+        uppdateraForhandsvisning();
+    }
+
     window.addEventListener("message", function (h) {
-        if (h.origin === location.origin && h.data && h.data.typ === "forhandsvisning-redo") {
-            forhandsvisningRedo = true;
-            uppdateraForhandsvisning();
-        }
+        if (h.origin === location.origin && h.data && h.data.typ === "forhandsvisning-redo") forhandsvisningKlar();
     });
 
     function spara() {
@@ -440,20 +482,271 @@
             });
     }
 
+    // ---------- Delarna (en ruta per "## Rubrik") ----------
+
+    var delar = [];  // [{ raw, rubrik, text, bilder: [{ alt, src }], andrad }]
+    var fore = "";   // ev. text före första rubriken (syns inte på sidan)
+
+    var BILDRAD = /^[ \t]*(?:!\[[^\]]*\]\([^)\s]+(?:[ \t]+"[^"]*")?\)[ \t]*)+$/;
+    var BILD = /!\[([^\]]*)\]\(([^)\s]+)(?:[ \t]+"[^"]*")?\)/g;
+
+    function skapaId(rubrik) {
+        return rubrik.toLowerCase()
+            .replace(/[åä]/g, "a").replace(/ö/g, "o").replace(/é/g, "e")
+            .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "del";
+    }
+
+    function tolkaText(text) {
+        var bitar = text.split(/(?=^##(?!#))/m);
+        fore = bitar.length && !/^##(?!#)/.test(bitar[0]) ? bitar.shift() : "";
+        delar = bitar.map(tolkaDel);
+    }
+
+    function tolkaDel(raw) {
+        var radbryt = raw.indexOf("\n");
+        var rubrik = (radbryt === -1 ? raw : raw.slice(0, radbryt)).replace(/^##[ \t]*/, "").trim();
+        var kropp = radbryt === -1 ? "" : raw.slice(radbryt + 1);
+        var bilder = [];
+        var rader = kropp.split("\n").filter(function (rad) {
+            if (!BILDRAD.test(rad)) return true;
+            rad.replace(BILD, function (_, alt, src) { bilder.push({ alt: alt, src: src }); });
+            return false;
+        });
+        return {
+            raw: raw,
+            rubrik: rubrik,
+            text: rader.join("\n").replace(/\n{3,}/g, "\n\n").trim(),
+            bilder: bilder,
+            andrad: false
+        };
+    }
+
+    function delTillText(d) {
+        if (!d.andrad) return d.raw.replace(/\s*$/, "\n\n");
+        var ut = "## " + d.rubrik.replace(/[\r\n]+/g, " ").trim() + "\n\n";
+        if (d.text.trim()) ut += d.text.trim() + "\n\n";
+        if (d.bilder.length) {
+            ut += d.bilder.map(function (b) { return "![" + b.alt + "](" + b.src + ")"; }).join("\n") + "\n\n";
+        }
+        return ut;
+    }
+
+    function byggTextFranDelar() {
+        var f = fore.trim() ? fore.replace(/\s*$/, "\n\n") : "";
+        tillstand.text = (f + delar.map(delTillText).join("")).replace(/\s*$/, "\n");
+        $("#text").value = tillstand.text;
+        andrat();
+    }
+
+    // Visar en bild från repot. Om hemsidan inte hunnit publicera den än hämtas den direkt från GitHub.
+    function sattBild(img, sokvag, reserv) {
+        img.onerror = function () {
+            img.onerror = null;
+            img.src = reserv || ("https://raw.githubusercontent.com/" + KONFIG.agare + "/" + KONFIG.repo + "/" +
+                KONFIG.gren + "/" + sokvag.split("/").map(encodeURIComponent).join("/"));
+        };
+        img.src = tillstand.lokalaBilder[sokvag] || sokvag;
+    }
+
+    function skapa(tagg, klass, html) {
+        var e = document.createElement(tagg);
+        if (klass) e.className = klass;
+        if (html) e.innerHTML = html;
+        return e;
+    }
+
+    var VERKTYG_HTML =
+        '<button type="button" data-gor="fet" title="Fetstil"><b>F</b></button>' +
+        '<button type="button" data-gor="kursiv" title="Kursiv"><i>K</i></button>' +
+        '<button type="button" data-gor="lista" title="Punktlista">• Lista</button>' +
+        '<button type="button" data-gor="kort" title="Underrubrik i ett eget kort">Underrubrik</button>' +
+        '<button type="button" data-gor="lank" title="Länk">Länk</button>' +
+        '<button type="button" data-gor="knapp" title="Knapp (länk på egen rad)">Knapp</button>';
+
+    function visaDelar(fokusIndex, fokusKnapp) {
+        var behallare = $("#delar");
+        behallare.innerHTML = "";
+        if (!delar.length) behallare.innerHTML = '<p class="mjuk liten">Inga delar än. Lägg till en nedan.</p>';
+        delar.forEach(function (d, i) { behallare.appendChild(byggDelKort(d, i)); });
+        autoHojd();
+        if (fokusIndex !== undefined) {
+            var kort = behallare.children[fokusIndex];
+            var mal = kort && (kort.querySelector('[data-gor="' + fokusKnapp + '"]:not(:disabled)') || kort.querySelector(".del-rubrik"));
+            if (mal) { mal.focus(); kort.scrollIntoView({ block: "nearest" }); }
+        }
+    }
+
+    function byggDelKort(d, i) {
+        var kort = skapa("article", "del",
+            '<div class="del-huvud">' +
+            '<input class="del-rubrik" aria-label="Rubrik" placeholder="Rubrik">' +
+            '<div class="del-knappar">' +
+            '<button type="button" data-gor="upp" title="Flytta upp" aria-label="Flytta upp">↑</button>' +
+            '<button type="button" data-gor="ned" title="Flytta ned" aria-label="Flytta ned">↓</button>' +
+            '<button type="button" data-gor="ta-bort" title="Ta bort delen" aria-label="Ta bort delen">✕</button>' +
+            "</div></div>" +
+            '<div class="verktyg liten-verktyg">' + VERKTYG_HTML + "</div>" +
+            '<textarea class="del-text" rows="3" aria-label="Text" placeholder="Skriv text här…"></textarea>' +
+            '<p class="osa-info liten" hidden>Under texten visas OSA-formuläret. Det ställs in under fliken <strong>OSA</strong>.</p>' +
+            '<div class="del-bilder"></div>' +
+            '<p class="liten del-status" role="status"></p>');
+
+        var rubrik = kort.querySelector(".del-rubrik");
+        var text = kort.querySelector(".del-text");
+        var osaInfo = kort.querySelector(".osa-info");
+        rubrik.value = d.rubrik;
+        text.value = d.text;
+        osaInfo.hidden = skapaId(d.rubrik) !== "osa";
+        kort.querySelector('[data-gor="upp"]').disabled = i === 0;
+        kort.querySelector('[data-gor="ned"]').disabled = i === delar.length - 1;
+
+        rubrik.addEventListener("input", function () {
+            d.rubrik = rubrik.value;
+            d.andrad = true;
+            osaInfo.hidden = skapaId(d.rubrik) !== "osa";
+            byggTextFranDelar();
+        });
+        text.addEventListener("input", function () {
+            d.text = text.value;
+            d.andrad = true;
+            autoHojd(text);
+            byggTextFranDelar();
+        });
+        kort.addEventListener("focusin", function () { scrollaForhandsvisning(d.rubrik); });
+
+        kort.addEventListener("click", function (h) {
+            var knapp = h.target.closest("button[data-gor]");
+            if (!knapp) return;
+            var gor = knapp.dataset.gor;
+            var index = delar.indexOf(d);
+            if (gor === "upp" || gor === "ned") {
+                var ny = index + (gor === "upp" ? -1 : 1);
+                delar.splice(index, 1);
+                delar.splice(ny, 0, d);
+                visaDelar(ny, gor);
+                byggTextFranDelar();
+                scrollaForhandsvisning(d.rubrik);
+            } else if (gor === "ta-bort") {
+                if (!confirm("Ta bort delen ”" + (d.rubrik || "utan rubrik") + "” från hemsidan?")) return;
+                delar.splice(index, 1);
+                visaDelar();
+                byggTextFranDelar();
+            } else if (VERKTYG[gor]) {
+                VERKTYG[gor](text);
+            }
+        });
+
+        // Dra och släpp bilder direkt på rutan.
+        slappbar(kort, function (filer) { laggTillBilderIDel(d, filer, kort); });
+
+        visaDelBilder(kort, d);
+        return kort;
+    }
+
+    function visaDelBilder(kort, d) {
+        var yta = kort.querySelector(".del-bilder");
+        yta.innerHTML = "";
+        d.bilder.forEach(function (b, j) {
+            var fig = skapa("figure", "tumnagel");
+            var img = document.createElement("img");
+            sattBild(img, b.src);
+            img.alt = "";
+            fig.appendChild(img);
+            var knappar = skapa("div", "tumnagel-knappar");
+            [["‹", "Flytta åt vänster", j > 0, function () { flytta(j, j - 1); }],
+             ["›", "Flytta åt höger", j < d.bilder.length - 1, function () { flytta(j, j + 1); }],
+             ["✕", "Ta bort bilden från den här delen", true, function () {
+                 d.bilder.splice(j, 1);
+                 klar();
+             }]].forEach(function (k) {
+                if (!k[2]) return;
+                var knapp = skapa("button");
+                knapp.type = "button";
+                knapp.textContent = k[0];
+                knapp.title = k[1];
+                knapp.setAttribute("aria-label", k[1]);
+                knapp.addEventListener("click", k[3]);
+                knappar.appendChild(knapp);
+            });
+            fig.appendChild(knappar);
+            yta.appendChild(fig);
+        });
+        var lagg = skapa("button", "lagg-till-bild", d.bilder.length ? "+ Fler bilder" : "+ Lägg till bilder");
+        lagg.type = "button";
+        lagg.addEventListener("click", function () {
+            valjBilder(function (filer) { laggTillBilderIDel(d, filer, kort); });
+        });
+        yta.appendChild(lagg);
+
+        function flytta(fran, till) {
+            var b = d.bilder.splice(fran, 1)[0];
+            d.bilder.splice(till, 0, b);
+            klar();
+        }
+        function klar() {
+            d.andrad = true;
+            visaDelBilder(kort, d);
+            byggTextFranDelar();
+        }
+    }
+
+    function laggTillBilderIDel(d, filer, kort) {
+        var status = kort.querySelector(".del-status");
+        laddaUppFiler(filer, status).then(function (sokvagar) {
+            if (!sokvagar.length) return;
+            sokvagar.forEach(function (s) { d.bilder.push({ alt: "", src: s }); });
+            d.andrad = true;
+            visaDelBilder(kort, d);
+            byggTextFranDelar();
+            scrollaForhandsvisning(d.rubrik);
+        });
+    }
+
+    function nyDel() {
+        delar.push({ raw: "", rubrik: "Ny del", text: "", bilder: [], andrad: true });
+        visaDelar();
+        byggTextFranDelar();
+        var sista = $("#delar").lastElementChild;
+        var rubrik = sista.querySelector(".del-rubrik");
+        sista.scrollIntoView({ behavior: "smooth", block: "center" });
+        rubrik.focus();
+        rubrik.select();
+    }
+
+    function autoHojd(ta) {
+        (ta ? [ta] : $$(".del-text")).forEach(function (t) {
+            t.style.height = "auto";
+            t.style.height = Math.max(t.scrollHeight + 2, 72) + "px";
+        });
+    }
+
+    function visaAvancerat(ja) {
+        if (ja) {
+            $("#text").value = tillstand.text;
+        } else {
+            tolkaText(tillstand.text);
+            visaDelar();
+        }
+        $("#enkel-vy").hidden = ja;
+        $("#avancerad-vy").hidden = !ja;
+    }
+
     // ---------- Flikar ----------
 
     function bytFlik(namn) {
         $$(".flikar [role=tab]").forEach(function (f) { f.setAttribute("aria-selected", f.dataset.flik === namn); });
         $$(".panel").forEach(function (p) { p.hidden = p.dataset.panel !== namn; });
         $("#arbetsyta").dataset.aktiv = namn;
+        $(".panel-yta").scrollTop = 0;
+        if (namn === "innehall") autoHojd();
         if (namn === "bilder") visaBildgalleri();
+        if (namn === "utseende") visaOmslagsval();
         if (namn === "forhandsvisa") uppdateraForhandsvisning();
     }
 
     // ---------- Textverktyg ----------
 
-    function infoga(fore, efter, standard, egenRad) {
-        var ta = $("#text");
+    function infoga(ta, fore, efter, standard, egenRad) {
         var start = ta.selectionStart, slut = ta.selectionEnd;
         var vald = ta.value.slice(start, slut) || standard;
         var innan = ta.value.slice(0, start);
@@ -462,51 +755,118 @@
             if (!/\n$/.test(innan)) fore = (egenRad === "rad" ? "\n" : "\n\n") + fore;
             else if (egenRad === "stycke" && !/\n\n$/.test(innan)) fore = "\n" + fore;
         }
-        var ny = fore + vald + efter;
         ta.focus();
-        ta.setRangeText(ny, start, slut, "end");
+        ta.setRangeText(fore + vald + efter, start, slut, "end");
         var valStart = start + fore.length;
         ta.setSelectionRange(valStart, valStart + vald.length);
         ta.dispatchEvent(new Event("input"));
     }
 
+    function fragaAdress(fraga) {
+        var adress = prompt(fraga, "https://");
+        return adress && adress.trim() !== "https://" ? adress.trim() : null;
+    }
+
     var VERKTYG = {
-        rubrik: function () { infoga("## ", "\n\n", "Ny rubrik", "stycke"); },
-        kort: function () { infoga("### ", "\n", "Kortets rubrik", "stycke"); },
-        fet: function () { infoga("**", "**", "fet text"); },
-        kursiv: function () { infoga("*", "*", "kursiv text"); },
-        lista: function () { infoga("- ", "\n", "punkt", "rad"); },
-        lank: function () {
-            var adress = prompt("Vilken adress ska länken gå till?", "https://");
-            if (adress && adress !== "https://") infoga("[", "](" + adress.trim() + ")", "länktext");
+        rubrik: function (ta) { infoga(ta, "## ", "\n\n", "Ny rubrik", "stycke"); },
+        kort: function (ta) { infoga(ta, "### ", "\n", "Underrubrik", "stycke"); },
+        fet: function (ta) { infoga(ta, "**", "**", "fet text"); },
+        kursiv: function (ta) { infoga(ta, "*", "*", "kursiv text"); },
+        lista: function (ta) { infoga(ta, "- ", "\n", "punkt", "rad"); },
+        lank: function (ta) {
+            var adress = fragaAdress("Vilken adress ska länken gå till?");
+            if (adress) infoga(ta, "[", "](" + adress + ")", "länktext");
         },
-        knapp: function () {
-            var adress = prompt("Vilken adress ska knappen gå till?", "https://");
-            if (adress && adress !== "https://") infoga("[", "](" + adress.trim() + ")\n", "Knappens text", "stycke");
+        knapp: function (ta) {
+            var adress = fragaAdress("Vilken adress ska knappen gå till?");
+            if (adress) infoga(ta, "[", "](" + adress + ")\n", "Knappens text", "stycke");
         },
-        bild: function () {
-            valjBilder(function (sokvagar) {
-                sokvagar.forEach(function (s) { infoga("![", "](" + s + ")\n", "Bild", "stycke"); });
+        bild: function (ta) {
+            valjBilder(function (filer) {
+                laddaUppFiler(filer, $("#sparstatus")).then(function (sokvagar) {
+                    sokvagar.forEach(function (s) { infoga(ta, "![](", ")\n", s, "stycke"); });
+                });
             });
         }
     };
 
-    // ---------- Grundinfo ----------
+    // ---------- Utseende ----------
 
-    function visaTeman() {
-        var aktivt = hamtaInst("tema") || "klassisk";
-        var behallare = $("#teman");
-        behallare.innerHTML = "";
+    function hittaTema(id) { return TEMAN.filter(function (t) { return t.id === id; })[0] || TEMAN[0]; }
+    function hittaStil(id) { return STILAR.filter(function (s) { return s.id === id; })[0] || STILAR[0]; }
+
+    function namnProv(stil, storlek) {
+        var span = skapa("span", "namn-prov");
+        span.textContent = hamtaInst("namn") || "Ebba & Axel";
+        span.style.fontFamily = stil.font;
+        span.style.fontWeight = stil.vikt;
+        span.style.fontStyle = stil.kursiv ? "italic" : "normal";
+        span.style.fontSize = (storlek * (stil.storlek || 1)) + "rem";
+        if (stil.versaler) { span.style.textTransform = "uppercase"; span.style.letterSpacing = "0.06em"; }
+        return span;
+    }
+
+    function valKnapp(vald, onClick) {
+        var b = skapa("button", "valkort");
+        b.type = "button";
+        b.setAttribute("aria-pressed", vald ? "true" : "false");
+        b.addEventListener("click", onClick);
+        return b;
+    }
+
+    function visaUtseende() {
+        var aktivStil = hamtaInst("stil") || "klassisk";
+        var aktivtTema = hamtaInst("tema") || "klassisk";
+
+        var forslag = $("#forslag");
+        forslag.innerHTML = "";
+        FORSLAG.forEach(function (f) {
+            var tema = hittaTema(f.tema), stil = hittaStil(f.stil);
+            var b = valKnapp(f.stil === aktivStil && f.tema === aktivtTema, function () {
+                sattInst("stil", f.stil);
+                sattInst("tema", f.tema);
+                visaUtseende();
+            });
+            var prov = skapa("span", "forslag-prov");
+            prov.style.background = tema.bakgrund;
+            prov.style.color = tema.text;
+            prov.appendChild(namnProv(stil, 1.05));
+            var linje = skapa("span", "prov-linje");
+            linje.style.background = tema.accent;
+            prov.appendChild(linje);
+            var knapp = skapa("span", "prov-knapp");
+            knapp.style.background = tema.accent;
+            prov.appendChild(knapp);
+            b.appendChild(prov);
+            b.appendChild(skapa("span", "valkort-namn", f.namn));
+            forslag.appendChild(b);
+        });
+
+        var stilar = $("#stilar");
+        stilar.innerHTML = "";
+        STILAR.forEach(function (s) {
+            var b = valKnapp(s.id === aktivStil, function () { sattInst("stil", s.id); visaUtseende(); });
+            var prov = skapa("span", "stil-prov");
+            prov.appendChild(namnProv(s, 1.3));
+            b.appendChild(prov);
+            b.appendChild(skapa("span", "valkort-namn", s.namn));
+            b.appendChild(skapa("span", "valkort-text", s.text));
+            stilar.appendChild(b);
+        });
+
+        var teman = $("#teman");
+        teman.innerHTML = "";
         TEMAN.forEach(function (t) {
-            var etikett = document.createElement("label");
-            etikett.className = "tema";
-            etikett.innerHTML = '<input type="radio" name="tema"><span class="prov" style="background:' + t.farger[0] +
-                '"><span style="background:' + t.farger[1] + '"></span></span><span>' + t.namn + "</span>";
-            var radio = etikett.querySelector("input");
-            radio.value = t.id;
-            radio.checked = t.id === aktivt;
-            radio.addEventListener("change", function () { sattInst("tema", t.id); });
-            behallare.appendChild(etikett);
+            var b = valKnapp(t.id === aktivtTema, function () { sattInst("tema", t.id); visaUtseende(); });
+            b.classList.add("tema");
+            var prov = skapa("span", "prov");
+            prov.style.background = t.bakgrund;
+            var prick = skapa("span");
+            prick.style.background = t.accent;
+            prov.appendChild(prick);
+            b.appendChild(prov);
+            b.appendChild(skapa("span", "valkort-namn", t.namn));
+            teman.appendChild(b);
         });
     }
 
@@ -516,14 +876,38 @@
         ruta.innerHTML = "";
         if (bild) {
             var img = document.createElement("img");
-            img.src = tillstand.lokalaBilder[bild] || bild;
+            sattBild(img, bild);
             img.alt = "Omslagsbild";
             ruta.appendChild(img);
         } else {
-            ruta.innerHTML = '<p class="mjuk liten">Ingen bild vald.</p>';
+            ruta.innerHTML = '<p class="mjuk liten">Ingen omslagsbild vald.</p>';
         }
         $("#ta-bort-omslag").hidden = !bild;
     }
+
+    function visaOmslagsval() {
+        hamtaBildlista().then(function (lista) {
+            var yta = $("#omslag-val");
+            yta.innerHTML = "";
+            $("#omslag-val-yta").hidden = !lista.length;
+            lista.forEach(function (f) {
+                var b = valKnapp(hamtaInst("bild") === f.path, function () {
+                    sattInst("bild", f.path);
+                    visaOmslag();
+                    visaOmslagsval();
+                });
+                b.classList.add("omslag-alternativ");
+                b.setAttribute("aria-label", "Använd " + f.name + " som omslagsbild");
+                var img = document.createElement("img");
+                img.loading = "lazy";
+                img.alt = "";
+                sattBild(img, f.path, f.download_url);
+                b.appendChild(img);
+                yta.appendChild(b);
+            });
+        }).catch(function () { $("#omslag-val-yta").hidden = true; });
+    }
+
 
     // ---------- OSA ----------
 
@@ -573,6 +957,8 @@
         if (pos === text.length && text && !/\n\n$/.test(text)) del = (/\n$/.test(text) ? "\n" : "\n\n") + del;
         tillstand.text = text.slice(0, pos) + del + text.slice(pos);
         $("#text").value = tillstand.text;
+        tolkaText(tillstand.text);
+        visaDelar();
         andrat();
     }
 
@@ -609,11 +995,39 @@
 
     var valjBilderKlar = null;
 
+    // Öppnar bildväljaren. "klar" får de valda filerna.
     function valjBilder(klar) {
         valjBilderKlar = klar;
         var filval = $("#filval");
         filval.value = "";
         filval.click();
+    }
+
+    // Gör att man kan dra och släppa bilder på ett element.
+    function slappbar(el, klar) {
+        var raknare = 0;
+        el.addEventListener("dragenter", function (h) {
+            if (!harFiler(h)) return;
+            h.preventDefault();
+            raknare++;
+            el.classList.add("slapp-over");
+        });
+        el.addEventListener("dragover", function (h) { if (harFiler(h)) h.preventDefault(); });
+        el.addEventListener("dragleave", function () {
+            if (--raknare <= 0) { raknare = 0; el.classList.remove("slapp-over"); }
+        });
+        el.addEventListener("drop", function (h) {
+            if (!harFiler(h)) return;
+            h.preventDefault();
+            h.stopPropagation();
+            raknare = 0;
+            el.classList.remove("slapp-over");
+            var filer = Array.prototype.filter.call(h.dataTransfer.files, function (f) { return /^image\//.test(f.type); });
+            if (filer.length) klar(filer);
+        });
+    }
+    function harFiler(h) {
+        return h.dataTransfer && Array.prototype.indexOf.call(h.dataTransfer.types || [], "Files") !== -1;
     }
 
     function forminska(fil) {
@@ -645,13 +1059,14 @@
         return bas + "-" + Date.now().toString(36) + ".jpg";
     }
 
-    function laddaUppFiler(filer) {
-        var status = $("#uppladdning-status");
+    // Förminskar och laddar upp bilderna. Returnerar sökvägarna, t.ex. ["bilder/strand-abc.jpg"].
+    function laddaUppFiler(filer, statusEl) {
+        var status = statusEl || $("#uppladdning-status");
         var sokvagar = [];
         var kedja = Promise.resolve();
         filer.forEach(function (fil, i) {
             kedja = kedja.then(function () {
-                status.textContent = "Laddar upp bild " + (i + 1) + " av " + filer.length + "…";
+                status.textContent = filer.length === 1 ? "Laddar upp bilden…" : "Laddar upp bild " + (i + 1) + " av " + filer.length + "…";
                 return forminska(fil).then(function (dataUrl) {
                     var sokvag = KONFIG.bildmapp + "/" + filnamn(fil.name);
                     return sparaFil(sokvag, dataUrl.split(",")[1], null, "Ladda upp bild " + sokvag).then(function () {
@@ -664,6 +1079,7 @@
         });
         return kedja.then(function () {
             status.textContent = filer.length === 1 ? "Bilden är uppladdad ✓" : "Bilderna är uppladdade ✓";
+            setTimeout(function () { if (/✓$/.test(status.textContent)) status.textContent = ""; }, 4000);
             return sokvagar;
         }).catch(function (fel) {
             console.error(fel);
@@ -674,51 +1090,97 @@
 
     var bildlista = null;
 
+    function hamtaBildlista() {
+        if (bildlista) return Promise.resolve(bildlista);
+        return gh(filSokvag(KONFIG.bildmapp) + "?ref=" + encodeURIComponent(KONFIG.gren))
+            .catch(function (fel) { if (fel.status === 404) return []; throw fel; })
+            .then(function (lista) {
+                bildlista = lista.filter(function (f) {
+                    return f.type === "file" && /\.(jpe?g|png|gif|webp|svg)$/i.test(f.name);
+                }).reverse();
+                return bildlista;
+            });
+    }
+
+    function bildAnvands(sokvag) {
+        return hamtaInst("bild") === sokvag || delar.some(function (d) {
+            return d.bilder.some(function (b) { return b.src === sokvag; });
+        }) || tillstand.text.indexOf("(" + sokvag + ")") !== -1;
+    }
+
     function visaBildgalleri() {
         var galleri = $("#bildgalleri");
-        var hamta = bildlista ? Promise.resolve(bildlista) :
-            gh(filSokvag(KONFIG.bildmapp) + "?ref=" + encodeURIComponent(KONFIG.gren))
-                .catch(function (fel) { if (fel.status === 404) return []; throw fel; })
-                .then(function (lista) {
-                    bildlista = lista.filter(function (f) { return f.type === "file" && /\.(jpe?g|png|gif|webp|svg)$/i.test(f.name); });
-                    return bildlista;
-                });
-        hamta.then(function (lista) {
+        hamtaBildlista().then(function (lista) {
             galleri.innerHTML = "";
             if (!lista.length) {
                 galleri.innerHTML = '<p class="mjuk liten">Inga bilder uppladdade än.</p>';
                 return;
             }
-            lista.slice().reverse().forEach(function (f) {
-                var kort = document.createElement("figure");
-                kort.className = "bildkort";
+            lista.forEach(function (f) {
+                var kort = skapa("figure", "bildkort");
                 var img = document.createElement("img");
                 img.loading = "lazy";
                 img.alt = f.name;
-                img.src = tillstand.lokalaBilder[f.path] || f.download_url;
+                sattBild(img, f.path, f.download_url);
                 kort.appendChild(img);
-                var knappar = document.createElement("figcaption");
-                [["Infoga i texten", function () {
-                    bytFlik("text");
-                    infoga("![", "](" + f.path + ")\n", "Bild", "stycke");
-                }], ["Använd som omslag", function () {
+                var under = skapa("figcaption");
+
+                var val = skapa("select", "lagg-i-del");
+                val.setAttribute("aria-label", "Lägg till bilden i en del");
+                val.innerHTML = '<option value="">Visa i en del…</option>';
+                delar.forEach(function (d, i) {
+                    var o = document.createElement("option");
+                    o.value = i;
+                    o.textContent = d.rubrik || "(utan rubrik)";
+                    val.appendChild(o);
+                });
+                val.addEventListener("change", function () {
+                    var d = delar[val.value];
+                    if (!d) return;
+                    d.bilder.push({ alt: "", src: f.path });
+                    d.andrad = true;
+                    visaDelar();
+                    byggTextFranDelar();
+                    scrollaForhandsvisning(d.rubrik);
+                    $("#uppladdning-status").textContent = "Bilden visas nu i ”" + d.rubrik + "” ✓";
+                    val.value = "";
+                });
+                under.appendChild(val);
+
+                [["Använd som omslag", function () {
                     sattInst("bild", f.path);
                     visaOmslag();
-                    bytFlik("grundinfo");
+                    $("#uppladdning-status").textContent = "Bilden är nu omslagsbild ✓";
                 }], ["Ta bort", function () {
-                    if (!confirm("Ta bort " + f.name + "? Om bilden används på sidan försvinner den där.")) return;
+                    var anvands = bildAnvands(f.path);
+                    if (!confirm(anvands
+                        ? "Bilden används på hemsidan. Ta bort den helt? Den försvinner då också från sidan."
+                        : "Ta bort bilden?")) return;
                     gh(filSokvag(f.path), { method: "DELETE", body: { message: "Ta bort bild " + f.path, sha: f.sha, branch: KONFIG.gren } })
-                        .then(function () { bildlista = null; visaBildgalleri(); })
+                        .then(function () {
+                            if (anvands) {
+                                delar.forEach(function (d) {
+                                    var fore = d.bilder.length;
+                                    d.bilder = d.bilder.filter(function (b) { return b.src !== f.path; });
+                                    if (d.bilder.length !== fore) d.andrad = true;
+                                });
+                                byggTextFranDelar();
+                                visaDelar();
+                                if (hamtaInst("bild") === f.path) { sattInst("bild", ""); visaOmslag(); }
+                                $("#uppladdning-status").textContent = "Bilden är borttagen. Tryck Spara så försvinner den från sidan.";
+                            }
+                            bildlista = null;
+                            visaBildgalleri();
+                        })
                         .catch(function (fel) { alert("Kunde inte ta bort bilden: " + fel.message); });
                 }]].forEach(function (k) {
-                    var b = document.createElement("button");
+                    var b = skapa("button", "lank");
                     b.type = "button";
-                    b.className = "lank";
                     b.textContent = k[0];
                     b.addEventListener("click", k[1]);
-                    knappar.appendChild(b);
+                    under.appendChild(b);
                 });
-                kort.appendChild(knappar);
+                kort.appendChild(under);
                 galleri.appendChild(kort);
             });
         }).catch(function (fel) {
@@ -730,6 +1192,11 @@
     // ---------- Koppla ihop knappar ----------
 
     document.addEventListener("DOMContentLoaded", function () {
+        // Förhandsvisningen kan ha laddats klart innan det här skriptet startade.
+        var ram = $("#forhandsvisning");
+        ram.addEventListener("load", forhandsvisningKlar);
+        try { if (ram.contentDocument && ram.contentDocument.readyState === "complete" && ram.contentWindow.location.search) forhandsvisningKlar(); } catch (e) { }
+
         $("#form-installera").addEventListener("submit", installera);
         $("#foresla-losenord").addEventListener("click", function () { $("#nytt-losenord").value = foreslaLosenord(); });
         $("#till-installation").addEventListener("click", function (h) { h.preventDefault(); visaSkarm("skarm-installera"); });
@@ -745,25 +1212,39 @@
             f.addEventListener("click", function () { bytFlik(f.dataset.flik); });
         });
 
+        // Innehåll
+        $("#ny-del").addEventListener("click", nyDel);
+        $("#till-avancerat").addEventListener("click", function () { visaAvancerat(true); });
+        $("#till-enkel").addEventListener("click", function () { visaAvancerat(false); });
         $("#text").addEventListener("input", function () {
             tillstand.text = $("#text").value;
             andrat();
         });
-
-        $("#verktyg").addEventListener("click", function (h) {
+        $("[data-verktyg-for=text]").addEventListener("click", function (h) {
             var b = h.target.closest("button[data-gor]");
-            if (b) VERKTYG[b.dataset.gor]();
+            if (b) VERKTYG[b.dataset.gor]($("#text"));
         });
+        window.addEventListener("resize", function () { autoHojd(); });
 
+        // Grundinfo
         $$("[data-falt]").forEach(function (input) {
-            input.addEventListener("input", function () { sattInst(input.dataset.falt, input.value); });
+            input.addEventListener("input", function () {
+                sattInst(input.dataset.falt, input.value);
+                if (input.dataset.falt === "namn") visaUtseende();
+            });
         });
 
+        // Omslag
         $("#valj-omslag").addEventListener("click", function () {
-            valjBilder(function (s) { if (s[0]) { sattInst("bild", s[0]); visaOmslag(); } });
+            valjBilder(function (filer) {
+                laddaUppFiler(filer.slice(0, 1), $("#sparstatus")).then(function (s) {
+                    if (s[0]) { sattInst("bild", s[0]); visaOmslag(); visaOmslagsval(); }
+                });
+            });
         });
-        $("#ta-bort-omslag").addEventListener("click", function () { sattInst("bild", ""); visaOmslag(); });
+        $("#ta-bort-omslag").addEventListener("click", function () { sattInst("bild", ""); visaOmslag(); visaOmslagsval(); });
 
+        // OSA
         $$("input[name=osa-typ]").forEach(function (r) {
             r.addEventListener("change", function () { visaOsaDetalj(); sparaOsaVal(); });
         });
@@ -772,23 +1253,20 @@
         $("#kopiera-skript").addEventListener("click", kopieraSkript);
         $("#lagg-till-osa-del").addEventListener("click", laggTillOsaDel);
 
+        // Bilder
         $("#ladda-upp").addEventListener("click", function () {
-            valjBilder(null);
+            valjBilder(function (filer) { laddaUppFiler(filer).then(visaBildgalleri); });
         });
+        slappbar($("#slappyta"), function (filer) { laddaUppFiler(filer).then(visaBildgalleri); });
         $("#filval").addEventListener("change", function () {
             var filer = Array.prototype.slice.call(this.files || []);
             var klar = valjBilderKlar;
             valjBilderKlar = null;
-            if (!filer.length) return;
-            if ($("#arbetsyta").dataset.aktiv !== "bilder") {
-                $("#sparstatus").textContent = "Laddar upp bild…";
-            }
-            laddaUppFiler(filer).then(function (sokvagar) {
-                if ($("#sparstatus").textContent === "Laddar upp bild…") $("#sparstatus").textContent = "Bild uppladdad ✓";
-                if (klar) klar(sokvagar);
-                if ($("#arbetsyta").dataset.aktiv === "bilder") visaBildgalleri();
-            });
+            if (filer.length && klar) klar(filer);
         });
+        // Släpper man en bild utanför en ruta ska webbläsaren inte öppna den.
+        document.addEventListener("dragover", function (h) { if (harFiler(h)) h.preventDefault(); });
+        document.addEventListener("drop", function (h) { if (harFiler(h)) h.preventDefault(); });
 
         $("#spara").addEventListener("click", spara);
         document.addEventListener("keydown", function (h) {
