@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&family=Great+Vibes&family=DM+Serif+Display&family=Playfair+Display:ital,wght@0,500;1,500&family=Marcellus&family=Fraunces:ital,opsz,wght@1,9..144,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/redigera.css">
+    <link rel="stylesheet" href="assets/redigera.css?v=4">
 </head>
 <body>
 
@@ -298,6 +298,23 @@
 
 <input type="file" id="filval" accept="image/*" multiple hidden>
 
-<script src="assets/redigera.js"></script>
+<script>
+    // Om något går fel när sidan startar: visa ett meddelande istället för "Laddar…" för alltid.
+    (function () {
+        function visaStartfel() {
+            var ruta = document.getElementById("skarm-laddar");
+            if (!ruta || ruta.hidden || ruta.getAttribute("data-fel")) return;
+            ruta.setAttribute("data-fel", "1");
+            ruta.innerHTML = '<div class="ruta"><h1>Något gick fel</h1>' +
+                '<p>Sidan kunde inte starta. Det beror oftast på att webbläsaren har en gammal version sparad.</p>' +
+                '<p><button class="knapp bred" type="button" onclick="location.reload()">Ladda om sidan</button></p>' +
+                '<p class="liten mjuk">Hjälper det inte: på dator, tryck Ctrl+Shift+R (Cmd+Shift+R på Mac). ' +
+                'På mobil, vänta några minuter och försök igen, eller öppna sidan i ett privat fönster.</p></div>';
+        }
+        window.addEventListener("error", function () { setTimeout(visaStartfel, 300); });
+        setTimeout(visaStartfel, 20000);
+    })();
+</script>
+<script src="assets/redigera.js?v=4"></script>
 </body>
 </html>
