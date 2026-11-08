@@ -18,6 +18,8 @@ Har ni frågor är ni alltid välkomna att höra av er till oss.
 *Varma hälsningar,*
 *Ebba & Axel*
 
+![](bilder/img-3195-mw87kf4r.jpg)
+
 ## OSA
 
 Vi hoppas att ni vill fira med oss! Svara senast **[DATUM]** – och berätta gärna om eventuella allergier eller specialkost.
