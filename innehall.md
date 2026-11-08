@@ -4,7 +4,7 @@ datum: 2027-07-10
 tid: 15:00
 datum_text: Lördag 10 juli 2027
 plats: [ORT]
-tema: salvia
+tema: klassisk
 bild: 
 osa: 
 ---
