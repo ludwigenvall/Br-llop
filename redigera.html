@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Redigera hemsidan</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✏️</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/redigera.css">
+</head>
+<body>
+
+<!-- ============ LADDAR ============ -->
+<section class="skarm smal" id="skarm-laddar">
+    <p class="mjuk">Laddar…</p>
+</section>
+
+<!-- ============ LOGGA IN ============ -->
+<section class="skarm smal" id="skarm-logga-in" hidden>
+    <div class="ruta">
+        <h1>Redigera hemsidan</h1>
+        <form id="form-logga-in">
+            <label>Lösenord
+                <input type="password" id="losenord" autocomplete="current-password" required>
+            </label>
+            <label class="kryss">
+                <input type="checkbox" id="kom-ihag" checked> Kom ihåg mig på den här enheten
+            </label>
+            <p class="fel" id="fel-logga-in" role="alert" hidden></p>
+            <button class="knapp bred" type="submit">Logga in</button>
+        </form>
+        <details class="liten">
+            <summary>Glömt lösenordet?</summary>
+            <p>Lösenordet kan inte återställas, men ett nytt kan ställas in av den som
+               har tillgång till GitHub-repot.
+               <a href="#" id="till-installation">Ställ in ett nytt lösenord</a>.</p>
+        </details>
+    </div>
+    <p class="mjuk liten"><a href="./">← Tillbaka till hemsidan</a></p>
+</section>
+
+<!-- ============ INSTALLATION (görs en gång) ============ -->
+<section class="skarm smal" id="skarm-installera" hidden>
+    <div class="ruta">
+        <h1>Ställ in redigering</h1>
+        <p>Det här görs <strong>en gång</strong> av den som äger GitHub-repot. Efteråt
+           loggar man in med bara ett lösenord.</p>
+
+        <h2>1. Skapa en nyckel på GitHub</h2>
+        <ol>
+            <li>Öppna <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained token</a> (logga in om det behövs).</li>
+            <li><strong>Token name:</strong> t.ex. <em>Bröllopssidan</em>.</li>
+            <li><strong>Expiration:</strong> välj <em>Custom</em> och ett datum en bit efter bröllopet.</li>
+            <li><strong>Repository access:</strong> <em>Only select repositories</em> → välj <strong id="repo-namn"></strong>.</li>
+            <li><strong>Permissions → Repository permissions → Contents:</strong> välj <em>Read and write</em>.</li>
+            <li>Klicka <em>Generate token</em> och kopiera nyckeln (börjar med <code>github_pat_</code>).</li>
+        </ol>
+
+        <form id="form-installera">
+            <label>Nyckeln från GitHub
+                <input type="password" id="ny-token" autocomplete="off" spellcheck="false" required placeholder="github_pat_…">
+            </label>
+
+            <h2>2. Välj ett lösenord</h2>
+            <p class="liten mjuk">Det är det här lösenordet Ebba &amp; Axel loggar in med. Det måste vara
+               långt, minst 12 tecken – gärna flera ord.</p>
+            <label>Lösenord
+                <span class="rad">
+                    <input type="text" id="nytt-losenord" autocomplete="new-password" spellcheck="false" required minlength="12">
+                    <button class="knapp sekundar" type="button" id="foresla-losenord">Föreslå</button>
+                </span>
+            </label>
+            <p class="fel" id="fel-installera" role="alert" hidden></p>
+            <button class="knapp bred" type="submit">Spara och logga in</button>
+        </form>
+    </div>
+    <p class="mjuk liten"><a href="./">← Tillbaka till hemsidan</a></p>
+</section>
+
+<!-- ============ REDIGERA ============ -->
+<section class="skarm" id="skarm-redigera" hidden>
+    <header class="topp">
+        <h1>Redigera hemsidan</h1>
+        <div class="topp-knappar">
+            <a href="./" target="_blank" rel="noopener">Visa hemsidan ↗</a>
+            <button type="button" class="lank" id="logga-ut">Logga ut</button>
+        </div>
+    </header>
+
+    <nav class="flikar" role="tablist">
+        <button role="tab" data-flik="text" aria-selected="true">Text</button>
+        <button role="tab" data-flik="grundinfo">Grundinfo</button>
+        <button role="tab" data-flik="osa">OSA</button>
+        <button role="tab" data-flik="bilder">Bilder</button>
+        <button role="tab" data-flik="hjalp">Hjälp</button>
+        <button role="tab" data-flik="forhandsvisa" class="bara-mobil">Förhandsvisa</button>
+    </nav>
+
+    <div class="arbetsyta" id="arbetsyta" data-aktiv="text">
+        <div class="panel-yta">
+
+            <!-- TEXT -->
+            <div class="panel" data-panel="text">
+                <div class="verktyg" id="verktyg">
+                    <button type="button" data-gor="rubrik" title="Ny del på sidan (syns i menyn)">Ny del</button>
+                    <button type="button" data-gor="kort" title="Mindre rubrik i ett eget kort">Kort</button>
+                    <button type="button" data-gor="fet" title="Fetstil"><b>F</b></button>
+                    <button type="button" data-gor="kursiv" title="Kursiv"><i>K</i></button>
+                    <button type="button" data-gor="lista" title="Punktlista">• Lista</button>
+                    <button type="button" data-gor="lank" title="Länk">Länk</button>
+                    <button type="button" data-gor="knapp" title="Knapp (länk på egen rad)">Knapp</button>
+                    <button type="button" data-gor="bild" title="Lägg in en bild">Bild</button>
+                </div>
+                <textarea id="text" spellcheck="true" aria-label="Hemsidans text"></textarea>
+                <p class="liten mjuk">Varje <code>## Rubrik</code> blir en del på sidan. Se fliken <em>Hjälp</em> för fler tips.</p>
+            </div>
+
+            <!-- GRUNDINFO -->
+            <div class="panel" data-panel="grundinfo" hidden>
+                <label>Namn
+                    <input data-falt="namn" placeholder="Ebba & Axel">
+                </label>
+                <div class="tva">
+                    <label>Datum
+                        <input type="date" data-falt="datum">
+                    </label>
+                    <label>Klockslag
+                        <input type="time" data-falt="tid">
+                    </label>
+                </div>
+                <p class="liten mjuk">Datum och klockslag används till nedräkningen.</p>
+                <label>Datum som det skrivs på sidan
+                    <input data-falt="datum_text" placeholder="Lördag 10 juli 2027">
+                </label>
+                <label>Plats / ort
+                    <input data-falt="plats">
+                </label>
+
+                <fieldset>
+                    <legend>Färgtema</legend>
+                    <div class="teman" id="teman"></div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Omslagsbild högst upp</legend>
+                    <div class="omslag" id="omslag"></div>
+                    <div class="rad">
+                        <button class="knapp sekundar" type="button" id="valj-omslag">Välj bild…</button>
+                        <button class="lank" type="button" id="ta-bort-omslag">Ta bort bild</button>
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- OSA -->
+            <div class="panel" data-panel="osa" hidden>
+                <h2>Hur vill ni ta emot OSA?</h2>
+                <p class="varning" id="osa-saknar-del" hidden>
+                    Det finns ingen del som heter <strong>OSA</strong> i texten, så svaren syns inte på sidan.
+                    <button class="lank" type="button" id="lagg-till-osa-del">Lägg till en OSA-del</button>
+                </p>
+
+                <div class="osa-val">
+                    <label class="val-kort">
+                        <input type="radio" name="osa-typ" value="kalkylark">
+                        <span><strong>Formulär på hemsidan → Google Kalkylark</strong>
+                        <span class="mjuk">Gästerna svarar direkt på sidan. Svaren hamnar som rader i ett kalkylark. Rekommenderas.</span></span>
+                    </label>
+                    <div class="osa-detalj" data-osa="kalkylark" hidden>
+                        <ol>
+                            <li>Öppna <a href="https://sheets.new" target="_blank" rel="noopener">ett nytt Google Kalkylark</a> och döp det till t.ex. <em>OSA bröllop</em>.</li>
+                            <li>I menyn: <strong>Tillägg → Apps Script</strong>.</li>
+                            <li>Radera allt som står där och klistra in skriptet:
+                                <button class="knapp sekundar liten-knapp" type="button" id="kopiera-skript">Kopiera skriptet</button>
+                                <span class="mjuk liten">Vill ni få mejl vid varje svar? Skriv er adress vid <code>MEJLA_TILL</code> högst upp i skriptet.</span></li>
+                            <li>Spara (💾), klicka sedan <strong>Driftsätt → Ny driftsättning</strong>.</li>
+                            <li>Klicka på kugghjulet ⚙ → <strong>Webbapp</strong>. Välj <em>Kör som: Jag</em> och <em>Vem har åtkomst: Alla</em>. Klicka <strong>Driftsätt</strong>.</li>
+                            <li>Google ber er godkänna åtkomst: välj ert konto → <em>Avancerat</em> → <em>Gå till … (osäker)</em> → <em>Tillåt</em>. (Varningen visas för att det är ert eget skript, inte en app från Google.)</li>
+                            <li>Kopiera <strong>webbappens URL</strong> (slutar på <code>/exec</code>) och klistra in här:</li>
+                        </ol>
+                        <label>Webbappens URL
+                            <span class="rad">
+                                <input data-osa-falt="kalkylark" placeholder="https://script.google.com/macros/s/…/exec" spellcheck="false">
+                                <button class="knapp sekundar" type="button" id="testa-osa">Testa</button>
+                            </span>
+                        </label>
+                        <p class="liten" id="osa-test-resultat" role="status"></p>
+                    </div>
+
+                    <label class="val-kort">
+                        <input type="radio" name="osa-typ" value="lank">
+                        <span><strong>Länk till ett formulär</strong>
+                        <span class="mjuk">T.ex. Google Formulär, Microsoft Forms eller en annan sida. Sidan visar en knapp ”Svara på inbjudan”.</span></span>
+                    </label>
+                    <div class="osa-detalj" data-osa="lank" hidden>
+                        <p class="liten">I Google Formulär: klicka <strong>Skicka</strong> → 🔗 → <strong>Kopiera</strong>.</p>
+                        <label>Länk till formuläret
+                            <input data-osa-falt="lank" placeholder="https://forms.gle/…" spellcheck="false">
+                        </label>
+                    </div>
+
+                    <label class="val-kort">
+                        <input type="radio" name="osa-typ" value="mejl">
+                        <span><strong>Svar via mejl</strong>
+                        <span class="mjuk">Knappen öppnar ett färdigt mejl till er.</span></span>
+                    </label>
+                    <div class="osa-detalj" data-osa="mejl" hidden>
+                        <label>Mejladress
+                            <input type="email" data-osa-falt="mejl" placeholder="ebba.axel@exempel.se">
+                        </label>
+                    </div>
+
+                    <label class="val-kort">
+                        <input type="radio" name="osa-typ" value="inget">
+                        <span><strong>Inget ännu</strong>
+                        <span class="mjuk">Bara texten i OSA-delen visas.</span></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- BILDER -->
+            <div class="panel" data-panel="bilder" hidden>
+                <h2>Bilder</h2>
+                <p class="liten mjuk">Bilderna förminskas automatiskt innan de laddas upp.</p>
+                <button class="knapp" type="button" id="ladda-upp">Ladda upp bilder…</button>
+                <p class="liten" id="uppladdning-status" role="status"></p>
+                <div class="bildgalleri" id="bildgalleri"></div>
+            </div>
+
+            <!-- HJÄLP -->
+            <div class="panel" data-panel="hjalp" hidden>
+                <h2>Så skriver man</h2>
+                <table class="hjalptabell">
+                    <tr><td><code>## Boende</code></td><td>En ny del på sidan + i menyn</td></tr>
+                    <tr><td><code>### Hotell Strand</code></td><td>Mindre rubrik i ett eget kort</td></tr>
+                    <tr><td><code>**viktigt**</code></td><td><strong>fetstil</strong></td></tr>
+                    <tr><td><code>*kursivt*</code></td><td><em>kursiv</em></td></tr>
+                    <tr><td><code>- något</code></td><td>punktlista</td></tr>
+                    <tr><td><code>- **15:00** Vigsel</code></td><td>rad i ett schema</td></tr>
+                    <tr><td><code>[Boka](https://…)</code></td><td>länk</td></tr>
+                    <tr><td><code>[Boka](https://…)</code> på egen rad</td><td>knapp</td></tr>
+                    <tr><td><code>![Text](bilder/foto.jpg)</code></td><td>bild</td></tr>
+                </table>
+                <p>En ny rad blir en ny rad på sidan. En tom rad emellan blir ett nytt stycke.
+                   Delarna visas i samma ordning som i texten.</p>
+                <p>Ändringarna syns på hemsidan ungefär en minut efter att ni tryckt <strong>Spara</strong>.
+                   Alla tidigare versioner sparas, så inget går att förstöra på riktigt.</p>
+            </div>
+        </div>
+
+        <div class="forhandsvisning" id="forhandsvisning-yta">
+            <iframe id="forhandsvisning" title="Förhandsvisning" src="index.html?forhandsvisning=1"></iframe>
+        </div>
+    </div>
+
+    <footer class="sparbar">
+        <p id="sparstatus" role="status">Inga ändringar</p>
+        <button class="knapp" type="button" id="spara" disabled>Spara</button>
+    </footer>
+</section>
+
+<input type="file" id="filval" accept="image/*" multiple hidden>
+
+<script src="assets/redigera.js"></script>
+</body>
+</html>

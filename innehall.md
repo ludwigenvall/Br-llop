@@ -6,33 +6,8 @@ datum_text: Lördag 10 juli 2027
 plats: [ORT]
 tema: klassisk
 bild:
+osa:
 ---
-
-<!--
-  ===========================================================
-  HEJ EBBA & AXEL!  Det här är filen där ALL text på hemsidan finns.
-
-  • Raderna mellan de två "---" högst upp är grundinställningar.
-    Ändra bara texten till höger om kolon (:).
-      datum  skrivs ÅÅÅÅ-MM-DD (används till nedräkningen)
-      tid    skrivs TT:MM
-      tema   kan vara: klassisk, salvia, ros, natt, terrakotta, hav
-      bild   t.ex. bilder/omslag.jpg (lämna tomt för ingen bild)
-
-  • Varje rad som börjar med "## " blir en egen del på sidan
-    och en knapp i menyn. Lägg till, ta bort eller byt ordning fritt.
-  • "### " blir en mindre rubrik i ett eget kort.
-  • En ny rad i texten blir en ny rad på sidan.
-    En tom rad emellan blir ett nytt stycke.
-  • **dubbla stjärnor** = fetstil,  *en stjärna* = kursiv
-  • En rad som börjar med "- " blir en punktlista.
-  • En länk skrivs [text](https://adress.se).
-    Står en länk ensam på en egen rad blir den en snygg knapp.
-  • Allt mellan <!- - och - -> (som den här rutan) syns inte på sidan.
-
-  Allt inom [HAKPARENTESER] är platshållare som ska bytas ut.
-  ===========================================================
--->
 
 ## Välkommen
 
@@ -46,9 +21,6 @@ Har ni frågor är ni alltid välkomna att höra av er till oss.
 ## OSA
 
 Vi hoppas att ni vill fira med oss! Svara senast **[DATUM]** – och berätta gärna om eventuella allergier eller specialkost.
-
-<!-- Byt # mot länken till ert svarsformulär (t.ex. ett Google Formulär). -->
-[Svara på inbjudan](#)
 
 ## Schema
 
