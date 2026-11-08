@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Det här styr hur länken ser ut när den delas i sms/Messenger m.m. -->
+    <title>Ebba &amp; Axel – Bröllop</title>
+    <meta name="description" content="Välkommen till Ebba och Axels bröllop! Här hittar du all information om dagen.">
+    <meta property="og:title" content="Ebba &amp; Axel – Bröllop">
+    <meta property="og:description" content="Välkommen till vårt bröllop! Här hittar du all information om dagen.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#f5f0e8">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+    <header class="hero" id="topp">
+        <div class="hero-inner">
+            <p class="hero-kicker">Välkommen till vårt bröllop</p>
+            <h1 class="hero-names" id="hero-namn">Ebba &amp; Axel</h1>
+            <p class="hero-date" id="hero-datum"></p>
+            <p class="hero-place" id="hero-plats"></p>
+            <div class="countdown" id="nedrakning" hidden></div>
+            <a class="knapp" id="hero-osa" href="#osa" hidden>OSA</a>
+        </div>
+    </header>
+
+    <nav class="meny" id="meny" aria-label="Innehåll"></nav>
+
+    <main id="innehall">
+        <p class="laddar">Laddar…</p>
+    </main>
+
+    <footer class="sidfot">
+        <p id="sidfot-text"></p>
+    </footer>
+
+    <script src="assets/marked.min.js"></script>
+    <script src="assets/app.js"></script>
+</body>
+</html>

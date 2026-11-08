@@ -1,113 +1,115 @@
-# Bröllopshemsida – mall
+# Ebba & Axels bröllop 💍
 
-En återanvändbar digital bröllopshemsida byggd med Python, FastAPI och Jinja2.
-Byggd som en Progressive Web App (PWA) – gäster kan lägga till länken på sin
-hemskärm och få en app-liknande upplevelse.
+Bröllopshemsidan för Ebba & Axel. En enkel sida som fungerar på mobil och
+dator, och där **all text finns i en enda fil: [`innehall.md`](innehall.md)**.
 
-## Funktioner
+---
 
-- Startsida med nedräkning till bröllopsdagen
-- Sidor för schema, ceremoni, hitta hit, boende, mat & dryck, klädkod,
-  önskelista, galleri och FAQ
-- OSA-formulär som sparar svar till fil
-- Allt innehåll separerat i JSON-filer – ingen kodkunskap krävs för att ändra text
-- PWA-stöd (installerbar, viss offline-cache)
-- SEO- och delningsmetadata (Open Graph, Twitter Card)
+## ✏️ Så ändrar ni text på hemsidan
 
-## Installation
+Det går lika bra från mobilen som från datorn – ni behöver bara ett
+GitHub-konto med behörighet till det här repot.
 
-1. Se till att Python 3.10+ är installerat
-2. Skapa en virtuell miljö (rekommenderas):
-   ```
-   python -m venv venv
-   source venv/bin/activate      # Mac/Linux
-   venv\Scripts\activate         # Windows
-   ```
-3. Installera paket:
-   ```
-   pip install -r requirements.txt
-   ```
+1. Gå till **github.com/ludwigenvall/Br-llop** och logga in.
+2. Klicka på filen **`innehall.md`**.
+3. Klicka på **pennan ✏️** uppe till höger (på mobil: tryck på `…` och välj *Edit*).
+4. Ändra texten.
+5. Klicka på den gröna knappen **Commit changes…** och sedan **Commit changes** igen.
 
-## Starta lokalt
+Efter ungefär en minut syns ändringen på hemsidan. (Ladda om sidan
+om ni inte ser den direkt.)
 
-```
-python start.py
-```
+### Snabbguide till formatet
 
-Öppna sedan http://127.0.0.1:8000 i webbläsaren. Servern startar om
-automatiskt när du sparar ändringar i koden.
-
-## Så ändrar ni innehållet (utan kodkunskap)
-
-All text ligger i JSON-filer i mappen `content/`:
-
-| Fil | Innehåll |
+| Skriv så här | Blir |
 |---|---|
-| `wedding.json` | Namn, datum, platser, klädkod, boende, mat, önskelista |
-| `schedule.json` | Dagens schema |
-| `faq.json` | Vanliga frågor och svar |
-| `gallery.json` | Vilka bilder som visas i galleriet |
-| `settings.json` | Sidtitel, beskrivning, delningsbild |
+| `## Boende` | En ny del på sidan + en knapp i menyn |
+| `### Hotell Strand` | En mindre rubrik i ett eget kort |
+| `**viktigt**` | **fetstil** |
+| `*kursivt*` | *kursiv* |
+| `- något` | punktlista |
+| `- **15:00** Vigsel` | rad i ett snyggt schema (när alla punkter börjar med en fet tid) |
+| `[Boka här](https://…)` | länk |
+| `[Boka här](https://…)` på en egen rad | knapp |
+| `![Beskrivning](bilder/foto.jpg)` | bild |
 
-Öppna filen i valfri textredigerare, ändra texten mellan citattecknen
-(`"..."`), spara. Ändra INTE fältnamnen till vänster om `:` – bara texten
-till höger.
+En ny rad i texten blir en ny rad på sidan, och en tom rad emellan blir
+ett nytt stycke. Ordningen på delarna i filen är ordningen på sidan.
 
-Exempel – innan:
-```json
-"couple_names": "[BRUDPARETS NAMN]",
-```
-Exempel – efter:
-```json
-"couple_names": "Emma & Oskar",
-```
+### Inställningarna högst upp
 
-## Så lägger ni till bilder
+Mellan de två `---`-raderna högst upp i `innehall.md` finns:
 
-- **Hero-bild (startsidan):** lägg filen i `static/images/hero/`, peka på
-  den i `static/css/style.css` (sök efter `.hero`)
-- **Galleribilder:** lägg filerna i `static/images/gallery/`, lägg till
-  filnamnet i `content/gallery.json`
-- **App-ikoner (PWA):** lägg `icon-192.png`, `icon-512.png` och
-  `favicon.ico` i `static/icons/`
+| Inställning | Vad den gör |
+|---|---|
+| `namn` | Namnen högst upp på sidan |
+| `datum` | Bröllopsdatum som `2027-07-10` (används till nedräkningen) |
+| `tid` | Klockslag som `15:00` (nedräkningen räknar ner hit) |
+| `datum_text` | Hur datumet skrivs ut, t.ex. `Lördag 10 juli 2027` |
+| `plats` | Ort/plats under datumet |
+| `tema` | Färgtema: `klassisk`, `salvia`, `ros`, `natt`, `terrakotta` eller `hav` |
+| `bild` | Omslagsbild högst upp, t.ex. `bilder/omslag.jpg` (lämna tomt för ingen bild) |
 
-## Deployment
+### Lägga till bilder
 
-Projektet fungerar med de flesta Python-hosting-tjänster. Två enkla
-alternativ:
+1. Gå in i mappen **`bilder`** på GitHub.
+2. Klicka på **Add file → Upload files** och välj bilden.
+   (Tips: förminska stora mobilbilder först, t.ex. till ca 2000 px breda.)
+3. Använd sedan bilden i `innehall.md`, t.ex. `bild: bilder/omslag.jpg`
+   högst upp, eller `![Vi två](bilder/omslag.jpg)` någonstans i texten.
 
-### Render.com (rekommenderas för nybörjare)
-1. Pusha koden till GitHub
-2. Skapa ett nytt "Web Service" på render.com, koppla ditt repo
-3. Build command: `pip install -r requirements.txt`
-4. Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-5. Render ger er automatiskt HTTPS
+Om något blir fel kan man alltid gå tillbaka: på filens sida finns
+**History**, där alla tidigare versioner finns sparade.
 
-### Railway.app
-Liknande process – koppla GitHub-repot, Railway upptäcker automatiskt att
-det är ett Python-projekt.
+---
 
-## Koppla egen domän
+## 📨 OSA
 
-1. Köp en domän (t.ex. via Loopia, One.com, Namecheap)
-2. I er hosting-tjänst (Render/Railway): lägg till domänen under
-   "Custom Domain"
-3. Uppdatera DNS-inställningarna hos er domänleverantör enligt
-   instruktionerna hostingen ger er (oftast en CNAME- eller A-post)
-4. HTTPS aktiveras automatiskt av Render/Railway när domänen är verifierad
+Sidan har ingen egen server, så OSA-svaren samlas enklast i ett
+**Google Formulär** (svaren hamnar då automatiskt i ett kalkylark).
 
-## Framtida uppdateringar
+1. Skapa ett formulär på forms.google.com (namn, kommer/kommer inte,
+   allergier/specialkost, meddelande).
+2. Klicka på **Skicka → 🔗** och kopiera länken.
+3. Klistra in länken i `innehall.md` under `## OSA`, i stället för `#` i
+   `[Svara på inbjudan](#)`.
 
-1. Ändra innehåll i `content/`-filerna (eller kod om ni vill)
-2. `git add .`
-3. `git commit -m "Beskrivning av ändring"`
-4. `git push`
-5. Render/Railway deployar automatiskt den nya versionen
+Knappen ”OSA” högst upp på sidan hoppar automatiskt till OSA-delen.
 
-## Bygga vidare
+---
 
-- **OSA till databas:** se kommentaren i `app/routes/osa.py`
-- **E-postbekräftelse vid OSA:** lägg till i `osa_skicka()`-funktionen i
-  samma fil, t.ex. med paketet `fastapi-mail`
-- **Adminpanel för OSA-svar:** `content/osa_responses.json` innehåller
-  alla svar och kan enkelt läsas in i en ny adminvy
+## 🚀 Publicera sidan (görs en gång)
+
+Sidan publiceras gratis med GitHub Pages:
+
+1. Se till att filerna ligger på `main`-grenen.
+2. Gå till repot på GitHub → **Settings → Pages**.
+3. Under *Build and deployment*: välj **Deploy from a branch**, branch
+   **main** och mapp **/ (root)**. Klicka **Save**.
+4. Efter någon minut finns sidan på
+   **https://ludwigenvall.github.io/Br-llop/** – det är den adressen ni
+   skriver i inbjudan (eller koppla en egen domän, se nedan).
+
+**Ge Ebba & Axel redigeringsbehörighet:** Settings → Collaborators →
+*Add people* och lägg till deras GitHub-konton.
+
+**Egen domän (valfritt):** köp t.ex. `ebbaochaxel.se` hos Loopia/One.com,
+skriv in den under Settings → Pages → *Custom domain* och följ GitHubs
+instruktioner för DNS. Bocka i *Enforce HTTPS*.
+
+**Förhandsvisningen i sms/Messenger** (titel och beskrivning när länken
+delas) står högst upp i `index.html`.
+
+---
+
+## Teknik (för den nyfikne)
+
+- `index.html` – sidans ram
+- `innehall.md` – all text (Markdown)
+- `assets/app.js` – läser `innehall.md` och bygger sidan
+- `assets/style.css` – utseende och färgteman
+- `assets/marked.min.js` – Markdown-tolk ([marked](https://github.com/markedjs/marked), MIT)
+- `.nojekyll` – behövs för att GitHub Pages ska servera `innehall.md` som den är
+
+Förhandsgranska lokalt: kör `python3 -m http.server` i mappen och öppna
+http://localhost:8000 (att öppna `index.html` direkt som fil fungerar inte).

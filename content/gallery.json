@@ -1,8 +1,0 @@
-{
-  "_kommentar": "Lägg riktiga bilder i static/images/gallery/ och skriv filnamnet här. 'alt' är en textbeskrivning för skärmläsare/SEO.",
-  "images": [
-    { "filename": "placeholder-1.jpg", "alt": "[BESKRIVNING AV BILD 1]" },
-    { "filename": "placeholder-2.jpg", "alt": "[BESKRIVNING AV BILD 2]" },
-    { "filename": "placeholder-3.jpg", "alt": "[BESKRIVNING AV BILD 3]" }
-  ]
-}
