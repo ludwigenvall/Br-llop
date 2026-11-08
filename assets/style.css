@@ -289,6 +289,68 @@ main { padding: 0 1rem; }
 .hero.med-bild .knapp { background: #fff; color: #2b2825; }
 
 /* ============================================
+   OSA-FORMULÄR (när "osa:" är en Google-kalkylarkslänk)
+   ============================================ */
+.osa-formular, .osa-tack {
+    max-width: 480px;
+    margin: 2rem auto 0;
+    padding: 1.75rem 1.5rem;
+    background: var(--yta);
+    border-radius: var(--radie);
+    box-shadow: var(--skugga);
+    text-align: left;
+}
+.osa-formular label, .osa-formular fieldset {
+    display: block;
+    margin: 0 0 1.2rem;
+    font-weight: 400;
+}
+.osa-formular fieldset { border: 0; padding: 0; }
+.osa-formular legend { padding: 0; margin-bottom: 0.4rem; }
+.osa-formular input:not([type=radio]), .osa-formular textarea {
+    display: block;
+    width: 100%;
+    margin-top: 0.4rem;
+    padding: 0.75rem 0.9rem;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--text);
+    background: var(--bakgrund);
+    border: 1px solid var(--linje);
+    border-radius: 10px;
+}
+.osa-formular input:focus, .osa-formular textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+.osa-formular label.val {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 0.35rem;
+    font-weight: 300;
+    cursor: pointer;
+}
+.osa-formular input[type=radio] { width: 1.15rem; height: 1.15rem; accent-color: var(--accent); }
+.osa-formular .om-ja[hidden] { display: none; }
+.osa-formular .hjalp { display: block; font-size: 0.85rem; color: var(--text-mjuk); font-weight: 300; }
+.hjalp-inline { font-size: 0.85rem; color: var(--text-mjuk); font-weight: 300; }
+.osa-formular .fallgrop { position: absolute; left: -9999px; }
+.osa-formular .knapp { width: 100%; border: 0; font: inherit; cursor: pointer; }
+.osa-formular .knapp:disabled { opacity: 0.6; cursor: default; transform: none; }
+.osa-fel { color: #b3261e; margin: 0 0 1rem; }
+[data-tema="natt"] .osa-fel { color: #ffb4ab; }
+.osa-tack { text-align: center; }
+.osa-tack:focus { outline: none; }
+.osa-tack p { margin: 0 0 0.75rem; }
+.osa-tack .hjalp { font-size: 0.85rem; color: var(--text-mjuk); }
+.osa-tack-rubrik { font-family: var(--font-rubrik); font-size: 1.8rem; }
+.lank-knapp {
+    background: none; border: 0; padding: 0; font: inherit; font-size: 0.9rem;
+    color: var(--accent); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+}
+
+/* ============================================
    SIDFOT
    ============================================ */
 .sidfot {
