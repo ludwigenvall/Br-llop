@@ -1,0 +1,311 @@
+/* ============================================
+   FÄRGER – temat väljs med "tema:" i innehall.md
+   ============================================ */
+:root {
+    --bakgrund: #f5f0e8;
+    --yta: #ffffff;
+    --yta-mjuk: #ecdfc8;
+    --linje: #e5ddd0;
+    --text: #2b2825;
+    --text-mjuk: #6b655d;
+    --accent: #9c7c4c;
+    --accent-text: #ffffff;
+
+    --font-rubrik: 'Cormorant Garamond', Georgia, serif;
+    --font-text: 'Jost', system-ui, -apple-system, sans-serif;
+    --radie: 14px;
+    --skugga: 0 8px 30px rgba(0, 0, 0, 0.06);
+    --bredd: 760px;
+}
+
+[data-tema="salvia"] {
+    --bakgrund: #eef1e9; --yta-mjuk: #dde5d3; --linje: #d8dfd0;
+    --text: #2f342a; --text-mjuk: #636b5c; --accent: #5f7350;
+}
+[data-tema="ros"] {
+    --bakgrund: #f7ecec; --yta-mjuk: #eed7d7; --linje: #e8d6d6;
+    --text: #3a2b2b; --text-mjuk: #7e6363; --accent: #a8646a;
+}
+[data-tema="natt"] {
+    --bakgrund: #171d2b; --yta: #1f2738; --yta-mjuk: #2a3347; --linje: #2f3a50;
+    --text: #f2eee4; --text-mjuk: #b7bccb; --accent: #d4af6a; --accent-text: #171d2b;
+    --skugga: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+[data-tema="terrakotta"] {
+    --bakgrund: #f7ede3; --yta-mjuk: #f0d5be; --linje: #e9d9c8;
+    --text: #3a2a1f; --text-mjuk: #7d634f; --accent: #b05a33;
+}
+[data-tema="hav"] {
+    --bakgrund: #eaf2f2; --yta-mjuk: #d6e6e6; --linje: #d3e0e0;
+    --text: #223333; --text-mjuk: #587272; --accent: #3a7f80;
+}
+
+/* ============================================
+   GRUND
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+
+body {
+    margin: 0;
+    font-family: var(--font-text);
+    font-weight: 300;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--bakgrund);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { font-family: var(--font-rubrik); font-weight: 600; line-height: 1.15; margin: 0; }
+
+a { color: var(--accent); text-underline-offset: 3px; }
+
+strong { font-weight: 500; }
+
+img { max-width: 100%; height: auto; border-radius: var(--radie); }
+
+/* ============================================
+   TOPPEN (namn, datum, nedräkning)
+   ============================================ */
+.hero {
+    min-height: 88vh;
+    min-height: 88svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 1.25rem 3rem;
+    background-color: var(--yta-mjuk);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.hero.med-bild { color: #fff; }
+.hero.med-bild::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.45));
+}
+
+.hero-inner { position: relative; max-width: 640px; }
+
+.hero-kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 0.78rem;
+    font-weight: 400;
+    margin: 0 0 1rem;
+    opacity: 0.85;
+}
+
+.hero-names {
+    font-size: clamp(3rem, 13vw, 6rem);
+    font-weight: 500;
+    line-height: 1;
+}
+
+.hero-date {
+    font-family: var(--font-rubrik);
+    font-style: italic;
+    font-size: clamp(1.3rem, 4.5vw, 1.7rem);
+    margin: 1.25rem 0 0;
+}
+
+.hero-place { margin: 0.25rem 0 0; letter-spacing: 0.05em; opacity: 0.85; }
+.hero-place:empty, .hero-date:empty { display: none; }
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 2.25rem 0 0;
+}
+
+.cd {
+    min-width: 5.2rem;
+    padding: 0.8rem 0.5rem;
+    border-radius: var(--radie);
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+[data-tema="natt"] .cd { background: rgba(255, 255, 255, 0.07); }
+.hero.med-bild .cd { background: rgba(255, 255, 255, 0.18); }
+
+.cd span {
+    display: block;
+    font-family: var(--font-rubrik);
+    font-size: 2rem;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+.cd small { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.8; }
+.cd-klar { font-family: var(--font-rubrik); font-size: 1.6rem; margin: 0; }
+
+.hero .knapp { margin-top: 2rem; }
+
+/* ============================================
+   MENY – fäster i toppen, går att svepa i sidled på mobil
+   ============================================ */
+.meny {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    gap: 0.25rem;
+    justify-content: safe center;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0.6rem 1rem;
+    background: color-mix(in srgb, var(--bakgrund) 92%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--linje);
+}
+.meny::-webkit-scrollbar { display: none; }
+.meny:empty { display: none; }
+
+.meny a {
+    flex: 0 0 auto;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    color: var(--text-mjuk);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 400;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+}
+.meny a:hover { color: var(--text); }
+.meny a.aktiv { background: var(--yta-mjuk); color: var(--text); }
+
+/* ============================================
+   SEKTIONER
+   ============================================ */
+main { padding: 0 1rem; }
+
+.laddar { text-align: center; color: var(--text-mjuk); padding: 4rem 0; }
+
+.sektion {
+    max-width: var(--bredd);
+    margin: 0 auto;
+    padding: 4.5rem 0 1rem;
+    text-align: center;
+}
+
+.sektion h2 {
+    font-size: clamp(2.2rem, 7vw, 2.9rem);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+.sektion h2::after {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 1px;
+    margin: 1.1rem auto 0;
+    background: var(--accent);
+}
+
+.sektion-text > * { margin: 0 0 1rem; }
+.sektion-text > :last-child { margin-bottom: 0; }
+
+.sektion-text ul, .sektion-text ol {
+    display: inline-block;
+    text-align: left;
+    padding-left: 1.25rem;
+}
+
+/* Schema / tidslinje */
+.sektion-text ul.schema {
+    display: block;
+    list-style: none;
+    padding: 0;
+    max-width: 520px;
+    margin: 0 auto;
+    text-align: left;
+}
+.schema li {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--linje);
+}
+.schema li:last-child { border-bottom: 0; }
+.schema li > strong:first-child {
+    font-family: var(--font-rubrik);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1.3;
+}
+
+/* Kort (### underrubriker) */
+.kort-rutnat {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+    text-align: left;
+}
+.kort {
+    background: var(--yta);
+    border-radius: var(--radie);
+    box-shadow: var(--skugga);
+    padding: 1.5rem;
+}
+.kort h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.kort > * { margin: 0 0 0.75rem; }
+.kort > :last-child { margin-bottom: 0; }
+.kort .knapp-rad { margin-top: 1rem; }
+.kort .knapp {
+    padding: 0.5rem 1.1rem;
+    font-size: 0.88rem;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+}
+.kort .knapp:hover { background: var(--accent); color: var(--accent-text); }
+
+/* Knappar (en länk ensam på en rad) */
+.knapp-rad { margin-top: 1.75rem !important; }
+.knapp {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--accent-text);
+    text-decoration: none;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    transition: transform 0.15s, filter 0.15s;
+}
+.knapp:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.knapp[hidden] { display: none; }
+.hero.med-bild .knapp { background: #fff; color: #2b2825; }
+
+/* ============================================
+   SIDFOT
+   ============================================ */
+.sidfot {
+    text-align: center;
+    padding: 4rem 1rem 3rem;
+    color: var(--text-mjuk);
+    font-family: var(--font-rubrik);
+    font-style: italic;
+    font-size: 1.2rem;
+}
+.sidfot p { margin: 0; }
+.sidfot p::before { content: "♡"; display: block; font-style: normal; color: var(--accent); margin-bottom: 0.5rem; }
+
+@media (max-width: 480px) {
+    body { font-size: 1rem; }
+    .meny { justify-content: flex-start; }
+    .countdown { gap: 0.5rem; }
+    .cd { min-width: 4.6rem; }
+    .sektion { padding-top: 3.5rem; }
+}
