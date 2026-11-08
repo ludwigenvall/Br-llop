@@ -7,6 +7,26 @@
     var MANADER = ["januari", "februari", "mars", "april", "maj", "juni", "juli",
         "augusti", "september", "oktober", "november", "december"];
 
+    // Typsnitt för varje stil (hämtas från Google Fonts när stilen används).
+    var TYPSNITT = {
+        klassisk: "family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500",
+        romantisk: "family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500",
+        modern: "family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500",
+        botanisk: "family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Lato:wght@300;400;700",
+        artdeco: "family=Marcellus&family=Josefin+Sans:wght@300;400;600",
+        lekfull: "family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Nunito:wght@300;400;600"
+    };
+    var laddadeTypsnitt = { klassisk: true }; // klassisk laddas redan i index.html
+
+    function laddaTypsnitt(stil) {
+        if (laddadeTypsnitt[stil]) return;
+        laddadeTypsnitt[stil] = true;
+        var lank = document.createElement("link");
+        lank.rel = "stylesheet";
+        lank.href = "https://fonts.googleapis.com/css2?" + TYPSNITT[stil] + "&display=swap";
+        document.head.appendChild(lank);
+    }
+
     var forhandsvisning = /[?&]forhandsvisning\b/.test(location.search);
     var nedrakningTimer = null;
     var menyObserver = null;
@@ -83,6 +103,12 @@
         var tema = (inst.tema || "").toLowerCase();
         if (tema && tema !== "klassisk") document.documentElement.setAttribute("data-tema", tema);
         else document.documentElement.removeAttribute("data-tema");
+
+        var stil = (inst.stil || "").toLowerCase();
+        if (!TYPSNITT[stil]) stil = "klassisk";
+        if (stil !== "klassisk") document.documentElement.setAttribute("data-stil", stil);
+        else document.documentElement.removeAttribute("data-stil");
+        laddaTypsnitt(stil);
 
         startaNedrakning(datum);
     }
@@ -174,6 +200,19 @@
             img.loading = "lazy";
             var src = img.getAttribute("src");
             if (lokalaBilder[src]) img.src = lokalaBilder[src];
+        });
+
+        // Ett stycke med bara bilder blir en stor bild, eller ett galleri om det är flera.
+        rot.querySelectorAll("p").forEach(function (p) {
+            var bilder = p.querySelectorAll("img");
+            if (!bilder.length || p.textContent.trim() !== "") return;
+            var annat = Array.prototype.some.call(p.children, function (c) { return c.tagName !== "IMG" && c.tagName !== "BR"; });
+            if (annat) return;
+            var ruta = el("div", { "class": bilder.length > 1 ? "bildgalleri antal-" + Math.min(bilder.length, 4) : "bildgalleri en-bild" });
+            Array.prototype.forEach.call(bilder, function (img) {
+                ruta.appendChild(el("button", { type: "button", "class": "bild-knapp", "aria-label": "Visa bilden större" }, [img]));
+            });
+            p.replaceWith(ruta);
         });
 
         // Listor där varje punkt börjar med en fetstilad tid (**14:30**) blir ett schema.
@@ -318,6 +357,59 @@
         return form;
     }
 
+    // ---------- Visa bild i stort format ----------
+
+    function oppnaBild(knapp) {
+        var grupp = Array.prototype.slice.call(knapp.parentNode.querySelectorAll("img"));
+        var index = grupp.indexOf(knapp.querySelector("img"));
+        var bild = el("img", { alt: "" });
+        var fore = el("button", { type: "button", "class": "ljus-fore", "aria-label": "Föregående bild", text: "‹" });
+        var nasta = el("button", { type: "button", "class": "ljus-nasta", "aria-label": "Nästa bild", text: "›" });
+        var stang = el("button", { type: "button", "class": "ljus-stang", "aria-label": "Stäng", text: "×" });
+        var ruta = el("div", { "class": "ljuslada", role: "dialog", "aria-modal": "true" }, [bild, stang]);
+        if (grupp.length > 1) { ruta.appendChild(fore); ruta.appendChild(nasta); }
+
+        function visa(i) {
+            index = (i + grupp.length) % grupp.length;
+            bild.src = grupp[index].currentSrc || grupp[index].src;
+            bild.alt = grupp[index].alt;
+        }
+        function stanga() {
+            document.removeEventListener("keydown", tangent);
+            ruta.remove();
+            document.body.style.overflow = "";
+            knapp.focus();
+        }
+        function tangent(h) {
+            if (h.key === "Escape") stanga();
+            if (h.key === "ArrowLeft") visa(index - 1);
+            if (h.key === "ArrowRight") visa(index + 1);
+        }
+        ruta.addEventListener("click", function (h) {
+            if (h.target === fore) visa(index - 1);
+            else if (h.target === nasta) visa(index + 1);
+            else stanga();
+        });
+        var startX = null;
+        ruta.addEventListener("touchstart", function (h) { startX = h.touches[0].clientX; }, { passive: true });
+        ruta.addEventListener("touchend", function (h) {
+            if (startX === null || grupp.length < 2) return;
+            var dx = h.changedTouches[0].clientX - startX;
+            if (Math.abs(dx) > 50) { h.preventDefault(); visa(index + (dx < 0 ? 1 : -1)); }
+            startX = null;
+        });
+        document.addEventListener("keydown", tangent);
+        visa(index);
+        document.body.appendChild(ruta);
+        document.body.style.overflow = "hidden";
+        stang.focus();
+    }
+
+    document.addEventListener("click", function (h) {
+        var knapp = h.target.closest && h.target.closest(".bild-knapp");
+        if (knapp) oppnaBild(knapp);
+    });
+
     // ---------- Menyn ----------
 
     function markeraAktivMenyrad() {
@@ -353,7 +445,13 @@
     if (forhandsvisning) {
         // Redigeringssidan skickar in texten hit för att visa hur det kommer se ut.
         window.addEventListener("message", function (h) {
-            if (h.origin !== location.origin || !h.data || h.data.typ !== "forhandsvisa") return;
+            if (h.origin !== location.origin || !h.data) return;
+            if (h.data.typ === "scrolla") {
+                var mal = document.getElementById(h.data.id);
+                if (mal) mal.scrollIntoView({ behavior: "smooth", block: "start" });
+                return;
+            }
+            if (h.data.typ !== "forhandsvisa") return;
             lokalaBilder = h.data.bilder || {};
             var y = window.scrollY;
             rendera(h.data.text);

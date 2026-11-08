@@ -13,6 +13,16 @@
 
     --font-rubrik: 'Cormorant Garamond', Georgia, serif;
     --font-text: 'Jost', system-ui, -apple-system, sans-serif;
+    --font-namn: var(--font-rubrik);
+    --namn-storlek: clamp(3rem, 13vw, 6rem);
+    --namn-vikt: 500;
+    --namn-stil: normal;
+    --rubrik-storlek: clamp(2.2rem, 7vw, 2.9rem);
+    --rubrik-vikt: 500;
+    --rubrik-stil: normal;
+    --rubrik-versaler: none;
+    --rubrik-spatiering: normal;
+    --knapp-radie: 999px;
     --radie: 14px;
     --skugga: 0 8px 30px rgba(0, 0, 0, 0.06);
     --bredd: 760px;
@@ -103,9 +113,11 @@ img { max-width: 100%; height: auto; border-radius: var(--radie); }
 }
 
 .hero-names {
-    font-size: clamp(3rem, 13vw, 6rem);
-    font-weight: 500;
-    line-height: 1;
+    font-family: var(--font-namn);
+    font-size: var(--namn-storlek);
+    font-weight: var(--namn-vikt);
+    font-style: var(--namn-stil);
+    line-height: 1.05;
 }
 
 .hero-date {
@@ -198,8 +210,11 @@ main { padding: 0 1rem; }
 }
 
 .sektion h2 {
-    font-size: clamp(2.2rem, 7vw, 2.9rem);
-    font-weight: 500;
+    font-size: var(--rubrik-storlek);
+    font-weight: var(--rubrik-vikt);
+    font-style: var(--rubrik-stil);
+    text-transform: var(--rubrik-versaler);
+    letter-spacing: var(--rubrik-spatiering);
     margin-bottom: 1.5rem;
 }
 .sektion h2::after {
@@ -276,7 +291,7 @@ main { padding: 0 1rem; }
 .knapp {
     display: inline-block;
     padding: 0.85rem 2rem;
-    border-radius: 999px;
+    border-radius: var(--knapp-radie);
     background: var(--accent);
     color: var(--accent-text);
     text-decoration: none;
@@ -371,3 +386,212 @@ main { padding: 0 1rem; }
     .cd { min-width: 4.6rem; }
     .sektion { padding-top: 3.5rem; }
 }
+
+/* ============================================
+   FLER FÄRGER
+   ============================================ */
+[data-tema="lavendel"] {
+    --bakgrund: #f3f0f7; --yta-mjuk: #e3dcef; --linje: #e0d9ea;
+    --text: #2e2a38; --text-mjuk: #655e78; --accent: #6f5a94;
+}
+[data-tema="champagne"] {
+    --bakgrund: #faf6ee; --yta-mjuk: #efe3c8; --linje: #eadfc9;
+    --text: #2d2a24; --text-mjuk: #6a6355; --accent: #8a6d2f;
+}
+[data-tema="skog"] {
+    --bakgrund: #1e2a23; --yta: #26342b; --yta-mjuk: #2f3f35; --linje: #3a4b40;
+    --text: #eef0e8; --text-mjuk: #b8c2b5; --accent: #cbb27a; --accent-text: #1e2a23;
+    --skugga: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+[data-tema="bordeaux"] {
+    --bakgrund: #f8f1ee; --yta-mjuk: #ecd8d5; --linje: #e7d6d2;
+    --text: #33201f; --text-mjuk: #755754; --accent: #7d2934;
+}
+[data-tema="sand"] {
+    --bakgrund: #f4efe6; --yta-mjuk: #e6dccb; --linje: #e2d8c6;
+    --text: #3b352c; --text-mjuk: #6f6658; --accent: #7a6649;
+}
+[data-tema="svartvit"] {
+    --bakgrund: #ffffff; --yta: #ffffff; --yta-mjuk: #f2f2f2; --linje: #e2e2e2;
+    --text: #111111; --text-mjuk: #5c5c5c; --accent: #111111;
+    --skugga: 0 0 0 1px #e6e6e6;
+}
+[data-tema="himmel"] {
+    --bakgrund: #eef3f9; --yta-mjuk: #d9e4f1; --linje: #d8e1ec;
+    --text: #1f2a3a; --text-mjuk: #56657b; --accent: #3a5c8f;
+}
+[data-tema="skog"] .cd { background: rgba(255, 255, 255, 0.07); }
+[data-tema="skog"] .osa-fel { color: #ffb4ab; }
+
+/* ============================================
+   STILAR – väljs med "stil:" i innehall.md
+   ============================================ */
+
+/* Romantisk: handskrivna namn, kursiva rubriker, hjärta */
+[data-stil="romantisk"] {
+    --font-namn: 'Great Vibes', cursive;
+    --namn-storlek: clamp(3.6rem, 17vw, 7.5rem);
+    --namn-vikt: 400;
+    --rubrik-stil: italic;
+}
+[data-stil="romantisk"] .hero-names { line-height: 1.15; }
+[data-stil="romantisk"] .sektion h2::after {
+    width: 110px; height: 16px;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 16'%3E%3Cpath d='M0 8H46M74 8H120' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M60 14C51 8.5 52 3 56.5 3C58.5 3 60 5 60 5S61.5 3 63.5 3C68 3 69 8.5 60 14Z' fill='%23000'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 16'%3E%3Cpath d='M0 8H46M74 8H120' stroke='%23000' stroke-width='1'/%3E%3Cpath d='M60 14C51 8.5 52 3 56.5 3C58.5 3 60 5 60 5S61.5 3 63.5 3C68 3 69 8.5 60 14Z' fill='%23000'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Modern: stram serif, vänsterställt, raka linjer */
+[data-stil="modern"] {
+    --font-rubrik: 'DM Serif Display', Georgia, serif;
+    --font-text: 'DM Sans', system-ui, sans-serif;
+    --namn-vikt: 400;
+    --namn-storlek: clamp(3rem, 14vw, 6.5rem);
+    --rubrik-vikt: 400;
+    --rubrik-storlek: clamp(2rem, 6vw, 2.6rem);
+    --knapp-radie: 6px;
+    --radie: 6px;
+}
+[data-stil="modern"] h3 { font-weight: 400; }
+[data-stil="modern"] .hero-names { letter-spacing: -0.02em; }
+[data-stil="modern"] .sektion {
+    text-align: left;
+    border-top: 1px solid var(--linje);
+    margin-top: 3rem;
+    padding-top: 3rem;
+}
+[data-stil="modern"] .sektion:first-child { border-top: 0; margin-top: 0; }
+[data-stil="modern"] .sektion h2::after { margin-left: 0; width: 32px; height: 3px; }
+[data-stil="modern"] .sektion-text ul, [data-stil="modern"] .sektion-text ol { display: block; }
+[data-stil="modern"] .sektion-text ul.schema { margin: 0; }
+[data-stil="modern"] .osa-formular, [data-stil="modern"] .osa-tack { margin-left: 0; }
+[data-stil="modern"] .kort { box-shadow: none; border: 1px solid var(--linje); }
+[data-stil="modern"] .knapp { letter-spacing: 0.02em; }
+
+/* Botanisk: klassisk serif med lövkvistar */
+[data-stil="botanisk"] {
+    --font-rubrik: 'Playfair Display', Georgia, serif;
+    --font-text: 'Lato', system-ui, sans-serif;
+    --namn-storlek: clamp(2.8rem, 12vw, 5.5rem);
+    --rubrik-storlek: clamp(2rem, 6.5vw, 2.6rem);
+    --rubrik-stil: italic;
+}
+[data-stil="botanisk"] .sektion h2::after,
+[data-stil="botanisk"] .hero-inner::before,
+[data-stil="botanisk"] .hero-inner::after {
+    width: 130px; height: 26px;
+    background: var(--accent);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 28'%3E%3Cpath d='M8 14H132' stroke='%23000' stroke-width='1.1'/%3E%3Cg fill='%23000'%3E%3Cpath d='M18 14Q14 3 6 6Q13 11 18 14Z'/%3E%3Cpath d='M32 14Q28 25 20 22Q27 17 32 14Z'/%3E%3Cpath d='M46 14Q42 3 34 6Q41 11 46 14Z'/%3E%3Cpath d='M58 14Q54 25 46 22Q53 17 58 14Z'/%3E%3Cpath d='M122 14Q126 3 134 6Q127 11 122 14Z'/%3E%3Cpath d='M108 14Q112 25 120 22Q113 17 108 14Z'/%3E%3Cpath d='M94 14Q98 3 106 6Q99 11 94 14Z'/%3E%3Cpath d='M82 14Q86 25 94 22Q87 17 82 14Z'/%3E%3Ccircle cx='70' cy='14' r='3.2'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 28'%3E%3Cpath d='M8 14H132' stroke='%23000' stroke-width='1.1'/%3E%3Cg fill='%23000'%3E%3Cpath d='M18 14Q14 3 6 6Q13 11 18 14Z'/%3E%3Cpath d='M32 14Q28 25 20 22Q27 17 32 14Z'/%3E%3Cpath d='M46 14Q42 3 34 6Q41 11 46 14Z'/%3E%3Cpath d='M58 14Q54 25 46 22Q53 17 58 14Z'/%3E%3Cpath d='M122 14Q126 3 134 6Q127 11 122 14Z'/%3E%3Cpath d='M108 14Q112 25 120 22Q113 17 108 14Z'/%3E%3Cpath d='M94 14Q98 3 106 6Q99 11 94 14Z'/%3E%3Cpath d='M82 14Q86 25 94 22Q87 17 82 14Z'/%3E%3Ccircle cx='70' cy='14' r='3.2'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+}
+[data-stil="botanisk"] .hero-inner::before,
+[data-stil="botanisk"] .hero-inner::after { content: ""; display: block; margin: 0 auto 1.5rem; }
+[data-stil="botanisk"] .hero-inner::after { margin: 2rem auto 0; }
+[data-stil="botanisk"] .hero.med-bild .hero-inner::before,
+[data-stil="botanisk"] .hero.med-bild .hero-inner::after { background: #fff; }
+
+/* Art deco: versaler, ram och romb */
+[data-stil="artdeco"] {
+    --font-rubrik: 'Marcellus', Georgia, serif;
+    --font-text: 'Josefin Sans', system-ui, sans-serif;
+    --namn-vikt: 400;
+    --namn-storlek: clamp(2.6rem, 11vw, 5.2rem);
+    --rubrik-vikt: 400;
+    --rubrik-storlek: clamp(1.7rem, 5.5vw, 2.2rem);
+    --rubrik-versaler: uppercase;
+    --rubrik-spatiering: 0.14em;
+    --knapp-radie: 0;
+    --radie: 2px;
+}
+[data-stil="artdeco"] h3 { font-weight: 400; letter-spacing: 0.06em; }
+[data-stil="artdeco"] .hero-names { text-transform: uppercase; letter-spacing: 0.08em; }
+[data-stil="artdeco"] .hero-inner {
+    border: 1px solid var(--accent);
+    outline: 1px solid var(--accent);
+    outline-offset: 7px;
+    padding: 3rem 1.5rem;
+}
+[data-stil="artdeco"] .hero.med-bild .hero-inner { border-color: #fff; outline-color: #fff; }
+[data-stil="artdeco"] .sektion h2::after {
+    width: 140px; height: 16px;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 16'%3E%3Cpath d='M0 8H56M84 8H140' stroke='%23000' stroke-width='1'/%3E%3Cpath fill-rule='evenodd' d='M70 1L77 8L70 15L63 8ZM70 4.5L66.5 8L70 11.5L73.5 8Z' fill='%23000'/%3E%3Ccircle cx='59' cy='8' r='1.5'/%3E%3Ccircle cx='81' cy='8' r='1.5'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 16'%3E%3Cpath d='M0 8H56M84 8H140' stroke='%23000' stroke-width='1'/%3E%3Cpath fill-rule='evenodd' d='M70 1L77 8L70 15L63 8ZM70 4.5L66.5 8L70 11.5L73.5 8Z' fill='%23000'/%3E%3Ccircle cx='59' cy='8' r='1.5'/%3E%3Ccircle cx='81' cy='8' r='1.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+[data-stil="artdeco"] .knapp { text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.9rem; }
+[data-stil="artdeco"] .kort { box-shadow: none; border: 1px solid var(--linje); }
+[data-stil="artdeco"] .cd { border-radius: 0; border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); }
+
+/* Lekfull: mjuk serif, runda former, vågig linje */
+[data-stil="lekfull"] {
+    --font-rubrik: 'Fraunces', Georgia, serif;
+    --font-text: 'Nunito', system-ui, sans-serif;
+    --namn-stil: italic;
+    --namn-vikt: 600;
+    --rubrik-vikt: 600;
+    --rubrik-stil: italic;
+    --rubrik-storlek: clamp(2rem, 6.5vw, 2.6rem);
+    --radie: 24px;
+}
+[data-stil="lekfull"] .sektion h2::after {
+    width: 96px; height: 10px;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'%3E%3Cpath d='M3 6Q10 0 17 6T31 6T45 6T59 6T73 6T87 6T101 6T115 6' stroke='%23000' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12'%3E%3Cpath d='M3 6Q10 0 17 6T31 6T45 6T59 6T73 6T87 6T101 6T115 6' stroke='%23000' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+[data-stil="lekfull"] .knapp { font-weight: 600; letter-spacing: 0.02em; }
+[data-stil="lekfull"] .kort:nth-child(odd) { transform: rotate(-0.6deg); }
+[data-stil="lekfull"] .kort:nth-child(even) { transform: rotate(0.6deg); }
+
+/* ============================================
+   BILDER OCH GALLERI
+   ============================================ */
+.bildgalleri {
+    display: grid;
+    gap: 0.6rem;
+    margin: 1.5rem 0;
+}
+.bildgalleri.en-bild { max-width: 640px; margin-left: auto; margin-right: auto; }
+.bildgalleri.antal-2 { grid-template-columns: repeat(2, 1fr); }
+.bildgalleri.antal-3 { grid-template-columns: repeat(3, 1fr); }
+.bildgalleri.antal-4 { grid-template-columns: repeat(4, 1fr); }
+.bild-knapp {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+    border-radius: var(--radie);
+    overflow: hidden;
+}
+.bild-knapp img { display: block; width: 100%; border-radius: 0; }
+.bildgalleri:not(.en-bild) .bild-knapp img { aspect-ratio: 1; object-fit: cover; transition: transform 0.4s; }
+.bildgalleri:not(.en-bild) .bild-knapp:hover img { transform: scale(1.04); }
+@media (max-width: 600px) {
+    .bildgalleri.antal-3, .bildgalleri.antal-4 { grid-template-columns: repeat(2, 1fr); }
+    .bildgalleri.antal-3 .bild-knapp:first-child { grid-column: span 2; }
+    .bildgalleri.antal-3 .bild-knapp:first-child img { aspect-ratio: 2 / 1; }
+}
+
+.ljuslada {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(10, 10, 10, 0.92);
+    cursor: zoom-out;
+}
+.ljuslada img { max-width: 100%; max-height: 100%; border-radius: 4px; object-fit: contain; }
+.ljuslada button {
+    position: absolute;
+    width: 48px; height: 48px;
+    border: 0; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff; font-size: 2rem; line-height: 1;
+    cursor: pointer;
+}
+.ljuslada button:hover { background: rgba(255, 255, 255, 0.25); }
+.ljus-stang { top: 1rem; right: 1rem; }
+.ljus-fore { left: 1rem; top: 50%; transform: translateY(-50%); }
+.ljus-nasta { right: 1rem; top: 50%; transform: translateY(-50%); }

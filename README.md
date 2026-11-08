@@ -37,16 +37,47 @@ via *Glömt lösenordet?* på inloggningssidan.
 1. Gå till **…/Br-llop/redigera.html** och logga in med lösenordet.
    (Bocka i *Kom ihåg mig* så slipper ni logga in varje gång.)
 2. Ändra det ni vill i flikarna:
-   - **Text:** allt innehåll på sidan. Varje `## Rubrik` blir en egen del
-     och en knapp i menyn. Knapparna ovanför textrutan hjälper till med
-     rubriker, fetstil, länkar och bilder.
-   - **Grundinfo:** namn, datum, plats, färgtema och omslagsbild.
+   - **Innehåll:** varje del på hemsidan är en egen ruta. Skriv direkt i
+     rutan, byt ordning med ↑ ↓ och lägg till nya delar längst ner.
+   - **Utseende:** välj ett av 12 färdiga förslag, eller välj stil
+     (typsnitt och dekor) och färg var för sig. Här väljs också omslagsbilden.
+   - **Grundinfo:** namn, datum och plats.
    - **OSA:** hur gästerna svarar (se nedan).
-   - **Bilder:** ladda upp bilder. De förminskas automatiskt.
-   - **Hjälp:** en lathund för hur texten skrivs.
+   - **Bilder:** alla uppladdade bilder.
+   - **Hjälp:** en snabbguide.
 3. Till höger (eller under fliken *Förhandsvisa* på mobilen) ser ni hur
    sidan kommer att se ut.
 4. Tryck **Spara**. Efter ungefär en minut syns ändringen på hemsidan.
+
+### Bilder
+
+- **Bilder i en del:** tryck **+ Lägg till bilder** i den ruta där
+  bilderna ska synas, och välj en eller flera bilder från mobilen eller
+  datorn. På datorn går det också att dra in bilder i rutan.
+- **En bild** visas stort. **Flera bilder** blir automatiskt ett galleri.
+  Gästerna kan trycka på en bild för att se den i helskärm och bläddra
+  mellan bilderna.
+- Byt ordning på bilderna med ‹ › och ta bort en bild med ✕ på bilden.
+- **Omslagsbild** bakom namnen högst upp väljs under *Utseende*.
+- Under **Bilder** finns alla uppladdade bilder. Där kan man lägga en
+  bild i valfri del, göra den till omslagsbild eller ta bort den helt.
+- Bilderna förminskas automatiskt innan de laddas upp, så det går bra att
+  välja bilder direkt från mobilkameran.
+
+### Utseende
+
+| Stil | Känsla |
+|---|---|
+| Klassisk | Tidlös serif, tunna linjer |
+| Romantisk | Handskrivna namn och små hjärtan |
+| Modern | Stram, vänsterställd och luftig |
+| Botanisk | Elegant serif med lövkvistar |
+| Art deco | Versaler, dubbel ram och romber |
+| Lekfull | Mjuk kursiv serif, rundade former och vågor |
+
+Färger: Klassisk, Champagne, Sand, Salvia, Ros, Lavendel, Terrakotta,
+Bordeaux, Hav, Himmel, Svartvit, Natt och Skog. Alla stilar går att
+kombinera med alla färger.
 
 Alla tidigare versioner sparas på GitHub (filen `innehall.md` → *History*),
 så inget kan förstöras på riktigt.
