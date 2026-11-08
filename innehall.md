@@ -9,8 +9,6 @@ bild:
 osa: 
 ---
 
-## Test
-
 ## Välkommen
 
 Vi ska gifta oss! Vi är så glada att få fira vår dag tillsammans med er. Här hittar ni allt ni behöver veta inför bröllopet – och vi fyller på med mer information allt eftersom.
