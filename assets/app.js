@@ -16,15 +16,69 @@
         artdeco: "family=Marcellus&family=Josefin+Sans:wght@300;400;600",
         lekfull: "family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Nunito:wght@300;400;600"
     };
-    var laddadeTypsnitt = { klassisk: true }; // klassisk laddas redan i index.html
+    // Typsnitt som kan väljas separat för namnen ("namn_typsnitt:").
+    var NAMNTYPSNITT = {
+        greatvibes: { font: "'Great Vibes', cursive", q: "family=Great+Vibes", vikt: 400, skala: 1.3 },
+        parisienne: { font: "'Parisienne', cursive", q: "family=Parisienne", vikt: 400, skala: 1.15 },
+        pinyon: { font: "'Pinyon Script', cursive", q: "family=Pinyon+Script", vikt: 400, skala: 1.05 },
+        allura: { font: "'Allura', cursive", q: "family=Allura", vikt: 400, skala: 1.35 },
+        cormorant: { font: "'Cormorant Garamond', serif", q: "family=Cormorant+Garamond:ital,wght@0,500;1,500", vikt: 500, skala: 1 },
+        playfair: { font: "'Playfair Display', serif", q: "family=Playfair+Display:ital,wght@0,500;1,500", vikt: 500, skala: 0.95 },
+        bodoni: { font: "'Bodoni Moda', serif", q: "family=Bodoni+Moda:ital,wght@0,500;1,500", vikt: 500, skala: 0.95 },
+        dmserif: { font: "'DM Serif Display', serif", q: "family=DM+Serif+Display:ital@0;1", vikt: 400, skala: 1 },
+        fraunces: { font: "'Fraunces', serif", q: "family=Fraunces:ital,opsz,wght@1,9..144,600", vikt: 600, skala: 0.95, kursiv: true },
+        marcellus: { font: "'Marcellus', serif", q: "family=Marcellus", vikt: 400, skala: 0.82, versaler: true },
+        josefin: { font: "'Josefin Sans', sans-serif", q: "family=Josefin+Sans:wght@300;400", vikt: 300, skala: 0.72, versaler: true }
+    };
 
-    function laddaTypsnitt(stil) {
-        if (laddadeTypsnitt[stil]) return;
-        laddadeTypsnitt[stil] = true;
+    var LAYOUTER = ["bakom", "ovanfor", "under", "bredvid"];
+    var DEKORER = ["ingen", "blomster", "eukalyptus", "olivkvist", "vildblommor", "palmer", "hjartan", "stjarnor", "monogram"];
+    var RAMAR = ["ingen", "tunn", "dubbel", "rundad", "bage", "oval", "horn", "kort"];
+    var MONSTER = ["ingen", "prickar", "ranter", "rutor", "romber", "vagor", "blommor", "linne"];
+
+    var laddadeTypsnitt = {};
+    laddadeTypsnitt[TYPSNITT.klassisk] = true; // laddas redan i index.html
+
+    function laddaTypsnitt(stilEllerFraga) {
+        var fraga = TYPSNITT[stilEllerFraga] || stilEllerFraga;
+        if (!fraga || laddadeTypsnitt[fraga]) return;
+        laddadeTypsnitt[fraga] = true;
         var lank = document.createElement("link");
         lank.rel = "stylesheet";
-        lank.href = "https://fonts.googleapis.com/css2?" + TYPSNITT[stil] + "&display=swap";
+        lank.href = "https://fonts.googleapis.com/css2?" + fraga + "&display=swap";
         document.head.appendChild(lank);
+    }
+
+    function sattAttribut(namn, varde, tillatna) {
+        var html = document.documentElement;
+        if (varde && (!tillatna || tillatna.indexOf(varde) !== -1)) html.setAttribute(namn, varde);
+        else html.removeAttribute(namn);
+    }
+
+    // "#rrggbb" -> ljusstyrka 0–1
+    function ljusstyrka(hex) {
+        var m = /^#?([0-9a-f]{6})$/i.exec(hex || "");
+        if (!m) return null;
+        var n = parseInt(m[1], 16);
+        var kanal = function (c) { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
+        return 0.2126 * kanal(n >> 16 & 255) + 0.7152 * kanal(n >> 8 & 255) + 0.0722 * kanal(n & 255);
+    }
+
+    function visaNamn(el, namn) {
+        el.innerHTML = "";
+        var delar = namn.split(/\s+(&|och|\+)\s+/i);
+        if (delar.length !== 3) { el.textContent = namn; return; }
+        [["namn", delar[0]], ["och", delar[1]], ["namn", delar[2]]].forEach(function (d, i) {
+            if (i) el.appendChild(document.createTextNode(" "));
+            el.appendChild(Object.assign(document.createElement("span"), { className: d[0], textContent: d[1] }));
+        });
+        el.setAttribute("aria-label", namn);
+    }
+
+    function initialer(namn) {
+        var delar = namn.split(/\s+(?:&|och|\+)\s+/i);
+        if (delar.length !== 2) return namn.charAt(0);
+        return delar[0].trim().charAt(0) + "&" + delar[1].trim().charAt(0);
     }
 
     var forhandsvisning = /[?&]forhandsvisning\b/.test(location.search);
@@ -85,24 +139,64 @@
         var datumText = inst.datum_text ||
             (datum ? datum.getDate() + " " + MANADER[datum.getMonth()] + " " + datum.getFullYear() : "");
 
-        document.getElementById("hero-namn").textContent = namn;
+        visaNamn(document.getElementById("hero-namn"), namn);
         document.getElementById("hero-datum").textContent = datumText;
         document.getElementById("hero-plats").textContent = inst.plats || "";
         document.getElementById("sidfot-text").textContent = namn + (datumText ? " · " + datumText : "");
         document.title = namn + " – Bröllop";
 
+        var html = document.documentElement;
         var hero = document.querySelector(".hero");
+        var foto = hero.querySelector(".hero-foto");
+        var layout = LAYOUTER.indexOf(inst.layout) !== -1 ? inst.layout : "bakom";
+        hero.className = "hero";
         if (inst.bild) {
-            hero.style.backgroundImage = "url('" + bildAdress(inst.bild).replace(/'/g, "%27") + "')";
-            hero.classList.add("med-bild");
+            foto.style.backgroundImage = "url('" + bildAdress(inst.bild).replace(/'/g, "%27") + "')";
+            hero.classList.add("med-bild", "bild-" + layout);
         } else {
-            hero.style.backgroundImage = "";
-            hero.classList.remove("med-bild");
+            foto.style.backgroundImage = "";
         }
 
-        var tema = (inst.tema || "").toLowerCase();
-        if (tema && tema !== "klassisk") document.documentElement.setAttribute("data-tema", tema);
-        else document.documentElement.removeAttribute("data-tema");
+        // Färg: ett färdigt tema, eller egna färger
+        var bakgrund = inst.farg_bakgrund, accent = inst.farg_accent;
+        var ljusBg = ljusstyrka(bakgrund), ljusAccent = ljusstyrka(accent);
+        ["--bakgrund", "--accent", "--text", "--accent-text", "--yta"].forEach(function (v) { html.style.removeProperty(v); });
+        html.removeAttribute("data-morkt");
+        if (ljusBg !== null && ljusAccent !== null) {
+            html.setAttribute("data-tema", "egen");
+            html.style.setProperty("--bakgrund", bakgrund);
+            html.style.setProperty("--accent", accent);
+            html.style.setProperty("--accent-text", ljusAccent > 0.45 ? "#1d1b18" : "#ffffff");
+            if (ljusBg < 0.2) {
+                html.setAttribute("data-morkt", "");
+                html.style.setProperty("--text", "#f3efe6");
+            } else {
+                html.style.setProperty("--text", "#2b2825");
+                html.style.setProperty("--yta", "#ffffff");
+            }
+        } else {
+            var tema = (inst.tema || "").toLowerCase();
+            sattAttribut("data-tema", tema !== "klassisk" ? tema : "");
+        }
+
+        sattAttribut("data-dekor", inst.dekor, DEKORER);
+        sattAttribut("data-ram", inst.ram, RAMAR);
+        sattAttribut("data-monster", inst.monster, MONSTER);
+        sattAttribut("data-namn", inst.namn_layout === "staplad" ? "staplad" : "");
+        hero.querySelector(".hero-inner").setAttribute("data-initialer", initialer(namn));
+
+        // Eget typsnitt för namnen
+        var nt = NAMNTYPSNITT[inst.namn_typsnitt];
+        ["--font-namn", "--namn-vikt", "--namn-stil", "--namn-storlek"].forEach(function (v) { html.style.removeProperty(v); });
+        html.removeAttribute("data-namn-versaler");
+        if (nt) {
+            laddaTypsnitt(nt.q);
+            html.style.setProperty("--font-namn", nt.font);
+            html.style.setProperty("--namn-vikt", nt.vikt);
+            html.style.setProperty("--namn-stil", nt.kursiv ? "italic" : "normal");
+            html.style.setProperty("--namn-storlek", "calc(clamp(3rem, 13vw, 6rem) * " + nt.skala + ")");
+            if (nt.versaler) html.setAttribute("data-namn-versaler", "");
+        }
 
         var stil = (inst.stil || "").toLowerCase();
         if (!TYPSNITT[stil]) stil = "klassisk";

@@ -28,35 +28,119 @@
     ];
 
     var TEMAN = [
-        { id: "klassisk", namn: "Klassisk", bakgrund: "#f5f0e8", accent: "#9c7c4c", text: "#2b2825" },
-        { id: "champagne", namn: "Champagne", bakgrund: "#faf6ee", accent: "#8a6d2f", text: "#2d2a24" },
-        { id: "sand", namn: "Sand", bakgrund: "#f4efe6", accent: "#7a6649", text: "#3b352c" },
-        { id: "salvia", namn: "Salvia", bakgrund: "#eef1e9", accent: "#5f7350", text: "#2f342a" },
-        { id: "ros", namn: "Ros", bakgrund: "#f7ecec", accent: "#a8646a", text: "#3a2b2b" },
-        { id: "lavendel", namn: "Lavendel", bakgrund: "#f3f0f7", accent: "#6f5a94", text: "#2e2a38" },
-        { id: "terrakotta", namn: "Terrakotta", bakgrund: "#f7ede3", accent: "#b05a33", text: "#3a2a1f" },
-        { id: "bordeaux", namn: "Bordeaux", bakgrund: "#f8f1ee", accent: "#7d2934", text: "#33201f" },
-        { id: "hav", namn: "Hav", bakgrund: "#eaf2f2", accent: "#3a7f80", text: "#223333" },
-        { id: "himmel", namn: "Himmel", bakgrund: "#eef3f9", accent: "#3a5c8f", text: "#1f2a3a" },
-        { id: "svartvit", namn: "Svartvit", bakgrund: "#ffffff", accent: "#111111", text: "#111111" },
-        { id: "natt", namn: "Natt", bakgrund: "#171d2b", accent: "#d4af6a", text: "#f2eee4" },
-        { id: "skog", namn: "Skog", bakgrund: "#1e2a23", accent: "#cbb27a", text: "#eef0e8" }
+        { id: "klassisk", grupp: "Ljust & klassiskt", namn: "Klassisk", bakgrund: "#f5f0e8", accent: "#9c7c4c", text: "#2b2825" },
+        { id: "champagne", grupp: "Ljust & klassiskt", namn: "Champagne", bakgrund: "#faf6ee", accent: "#8a6d2f", text: "#2d2a24" },
+        { id: "sand", grupp: "Ljust & klassiskt", namn: "Sand", bakgrund: "#f4efe6", accent: "#7a6649", text: "#3b352c" },
+        { id: "opal", grupp: "Ljust & klassiskt", namn: "Pärlemor", bakgrund: "#f6f4f8", accent: "#746994", text: "#2b2a33" },
+        { id: "svartvit", grupp: "Ljust & klassiskt", namn: "Svartvit", bakgrund: "#ffffff", accent: "#111111", text: "#111111" },
+        { id: "salvia", grupp: "Grönt & jordnära", namn: "Salvia", bakgrund: "#eef1e9", accent: "#5f7350", text: "#2f342a" },
+        { id: "oliv", grupp: "Grönt & jordnära", namn: "Oliv", bakgrund: "#f3f2ea", accent: "#5c6332", text: "#2c2d22" },
+        { id: "mocka", grupp: "Grönt & jordnära", namn: "Choklad & latte", bakgrund: "#f3ece5", accent: "#7a5340", text: "#2f241d" },
+        { id: "terrakotta", grupp: "Grönt & jordnära", namn: "Terrakotta", bakgrund: "#f7ede3", accent: "#b05a33", text: "#3a2a1f" },
+        { id: "ros", grupp: "Rosa & lila", namn: "Ros", bakgrund: "#f7ecec", accent: "#a8646a", text: "#3a2b2b" },
+        { id: "persika", grupp: "Rosa & lila", namn: "Persika", bakgrund: "#fdf3ec", accent: "#b25734", text: "#33241c" },
+        { id: "lavendel", grupp: "Rosa & lila", namn: "Lavendel", bakgrund: "#f3f0f7", accent: "#6f5a94", text: "#2e2a38" },
+        { id: "plommon", grupp: "Rosa & lila", namn: "Plommon", bakgrund: "#f6f0f3", accent: "#6b2d5c", text: "#2f1f2a" },
+        { id: "hav", grupp: "Blått", namn: "Hav", bakgrund: "#eaf2f2", accent: "#3a7f80", text: "#223333" },
+        { id: "himmel", grupp: "Blått", namn: "Himmel", bakgrund: "#eef3f9", accent: "#3a5c8f", text: "#1f2a3a" },
+        { id: "kornbla", grupp: "Blått", namn: "Kornblå", bakgrund: "#f0f4fb", accent: "#3f5fb0", text: "#1c2540" },
+        { id: "bordeaux", grupp: "Djärvt", namn: "Bordeaux", bakgrund: "#f8f1ee", accent: "#7d2934", text: "#33201f" },
+        { id: "korsbar", grupp: "Djärvt", namn: "Körsbär", bakgrund: "#fbf3ef", accent: "#b3262e", text: "#2e1a17" },
+        { id: "smorgul", grupp: "Djärvt", namn: "Smörgul", bakgrund: "#fdf8e6", accent: "#7d6514", text: "#2f2a1c" },
+        { id: "natt", grupp: "Mörkt", namn: "Natt", bakgrund: "#171d2b", accent: "#d4af6a", text: "#f2eee4" },
+        { id: "skog", grupp: "Mörkt", namn: "Skog", bakgrund: "#1e2a23", accent: "#cbb27a", text: "#eef0e8" },
+        { id: "svartguld", grupp: "Mörkt", namn: "Svart & guld", bakgrund: "#111111", accent: "#c9a45c", text: "#f3efe6" }
     ];
 
-    var FORSLAG = [
-        { namn: "Klassisk elegans", stil: "klassisk", tema: "klassisk" },
-        { namn: "Sommaräng", stil: "botanisk", tema: "salvia" },
-        { namn: "Romantisk ros", stil: "romantisk", tema: "ros" },
-        { namn: "Slottsbröllop", stil: "artdeco", tema: "natt" },
-        { namn: "Skärgård", stil: "modern", tema: "hav" },
-        { namn: "Höstfest", stil: "klassisk", tema: "terrakotta" },
-        { namn: "Skogsbröllop", stil: "botanisk", tema: "skog" },
-        { namn: "Champagne", stil: "artdeco", tema: "champagne" },
-        { namn: "Avskalat", stil: "modern", tema: "svartvit" },
-        { namn: "Lavendelfält", stil: "romantisk", tema: "lavendel" },
-        { namn: "Trädgårdsfest", stil: "lekfull", tema: "sand" },
-        { namn: "Vinkällare", stil: "klassisk", tema: "bordeaux" }
+    var NAMNTYPSNITT = [
+        { id: "", namn: "Stilens", font: null },
+        { id: "greatvibes", namn: "Great Vibes", font: "'Great Vibes', cursive", vikt: 400, storlek: 1.3 },
+        { id: "parisienne", namn: "Parisienne", font: "'Parisienne', cursive", vikt: 400, storlek: 1.15 },
+        { id: "pinyon", namn: "Pinyon", font: "'Pinyon Script', cursive", vikt: 400, storlek: 1.1 },
+        { id: "allura", namn: "Allura", font: "'Allura', cursive", vikt: 400, storlek: 1.35 },
+        { id: "cormorant", namn: "Cormorant", font: "'Cormorant Garamond', serif", vikt: 500 },
+        { id: "playfair", namn: "Playfair", font: "'Playfair Display', serif", vikt: 500 },
+        { id: "bodoni", namn: "Bodoni", font: "'Bodoni Moda', serif", vikt: 500 },
+        { id: "dmserif", namn: "DM Serif", font: "'DM Serif Display', serif", vikt: 400 },
+        { id: "fraunces", namn: "Fraunces", font: "'Fraunces', serif", vikt: 600, kursiv: true },
+        { id: "marcellus", namn: "Marcellus", font: "'Marcellus', serif", vikt: 400, versaler: true, storlek: 0.8 },
+        { id: "josefin", namn: "Josefin", font: "'Josefin Sans', sans-serif", vikt: 300, versaler: true, storlek: 0.75 }
     ];
+
+    var NAMNLAYOUTER = [
+        { id: "", namn: "På en rad" },
+        { id: "staplad", namn: "Under varandra" }
+    ];
+
+    var LAYOUTER = [
+        { id: "bakom", namn: "Bakom namnen" },
+        { id: "ovanfor", namn: "Ovanför namnen" },
+        { id: "under", namn: "Under namnen" },
+        { id: "bredvid", namn: "Bredvid namnen" }
+    ];
+
+    var DEKORER = [
+        { id: "", namn: "Stilens" },
+        { id: "ingen", namn: "Ingen" },
+        { id: "blomster", namn: "Blomsterranka" },
+        { id: "eukalyptus", namn: "Eukalyptus" },
+        { id: "olivkvist", namn: "Olivkvist" },
+        { id: "vildblommor", namn: "Vildblommor" },
+        { id: "palmer", namn: "Palmer" },
+        { id: "hjartan", namn: "Hjärtan" },
+        { id: "stjarnor", namn: "Stjärnor" },
+        { id: "monogram", namn: "Monogram" }
+    ];
+
+    var RAMAR = [
+        { id: "", namn: "Stilens" },
+        { id: "ingen", namn: "Ingen" },
+        { id: "tunn", namn: "Tunn" },
+        { id: "dubbel", namn: "Dubbel" },
+        { id: "rundad", namn: "Rundad" },
+        { id: "bage", namn: "Valv" },
+        { id: "oval", namn: "Oval" },
+        { id: "horn", namn: "Hörn" },
+        { id: "kort", namn: "Kort" }
+    ];
+
+    var MONSTER = [
+        { id: "", namn: "Inget" },
+        { id: "prickar", namn: "Prickar" },
+        { id: "ranter", namn: "Ränder" },
+        { id: "rutor", namn: "Rutigt" },
+        { id: "romber", namn: "Romber" },
+        { id: "vagor", namn: "Vågor" },
+        { id: "blommor", namn: "Små blommor" },
+        { id: "linne", namn: "Linne" }
+    ];
+
+    // Färdiga förslag. Det som inte anges återställs till stilens standard.
+    var FORSLAG = [
+        { namn: "Klassisk elegans", stil: "klassisk", tema: "klassisk", ram: "tunn" },
+        { namn: "Sommaräng", stil: "botanisk", tema: "salvia", dekor: "vildblommor" },
+        { namn: "Romantisk ros", stil: "romantisk", tema: "ros", dekor: "blomster", namn_layout: "staplad" },
+        { namn: "Slottsbröllop", stil: "artdeco", tema: "natt" },
+        { namn: "Skärgård", stil: "modern", tema: "hav", monster: "ranter" },
+        { namn: "Toscana", stil: "botanisk", tema: "oliv", dekor: "olivkvist", ram: "bage" },
+        { namn: "Skogsbröllop", stil: "botanisk", tema: "skog", dekor: "eukalyptus" },
+        { namn: "Champagne", stil: "artdeco", tema: "champagne", ram: "horn" },
+        { namn: "Plommon & oliv", stil: "klassisk", tema: "plommon", dekor: "eukalyptus", namn_typsnitt: "parisienne" },
+        { namn: "Svart & guld", stil: "romantisk", tema: "svartguld", dekor: "stjarnor", namn_layout: "staplad" },
+        { namn: "Pärlemor", stil: "romantisk", tema: "opal", ram: "oval" },
+        { namn: "Choklad & latte", stil: "modern", tema: "mocka", namn_layout: "staplad", namn_typsnitt: "bodoni" },
+        { namn: "Trädgårdsfest", stil: "lekfull", tema: "smorgul", monster: "rutor", dekor: "blomster", ram: "kort" },
+        { namn: "Körsbär", stil: "lekfull", tema: "korsbar", monster: "ranter", dekor: "hjartan", ram: "kort" },
+        { namn: "Sommarblå", stil: "klassisk", tema: "kornbla", monster: "rutor", ram: "kort" },
+        { namn: "Persikoblom", stil: "lekfull", tema: "persika", dekor: "vildblommor", monster: "prickar" },
+        { namn: "Lavendelfält", stil: "romantisk", tema: "lavendel", dekor: "vildblommor", ram: "bage" },
+        { namn: "Vinkällare", stil: "klassisk", tema: "bordeaux", ram: "dubbel", namn_typsnitt: "pinyon" },
+        { namn: "Höstfest", stil: "klassisk", tema: "terrakotta", dekor: "olivkvist" },
+        { namn: "Strandbröllop", stil: "modern", tema: "sand", dekor: "palmer" },
+        { namn: "Monogram", stil: "klassisk", tema: "champagne", dekor: "monogram", ram: "dubbel" },
+        { namn: "Avskalat", stil: "modern", tema: "svartvit", namn_layout: "staplad" }
+    ];
+    var FORSLAG_NYCKLAR = ["stil", "tema", "dekor", "ram", "monster", "namn_layout", "namn_typsnitt"];
 
     var TOKEN_NYCKEL = "brollop-redigera-token";
     var API = "https://api.github.com/repos/" + KONFIG.agare + "/" + KONFIG.repo;
@@ -795,9 +879,19 @@
     function hittaTema(id) { return TEMAN.filter(function (t) { return t.id === id; })[0] || TEMAN[0]; }
     function hittaStil(id) { return STILAR.filter(function (s) { return s.id === id; })[0] || STILAR[0]; }
 
-    function namnProv(stil, storlek) {
+    function namnProv(stil, storlek, staplad) {
         var span = skapa("span", "namn-prov");
-        span.textContent = hamtaInst("namn") || "Ebba & Axel";
+        var namn = hamtaInst("namn") || "Ebba & Axel";
+        var delar = namn.split(/\s+(&|och|\+)\s+/i);
+        if (staplad && delar.length === 3) {
+            span.classList.add("staplad");
+            span.innerHTML = "";
+            [delar[0], delar[1], delar[2]].forEach(function (d, i) {
+                span.appendChild(skapa("span", i === 1 ? "och" : "", "")).textContent = d;
+            });
+        } else {
+            span.textContent = namn;
+        }
         span.style.fontFamily = stil.font;
         span.style.fontWeight = stil.vikt;
         span.style.fontStyle = stil.kursiv ? "italic" : "normal";
@@ -814,60 +908,176 @@
         return b;
     }
 
+    // Färgerna som används i förhandsvisningarna under Utseende
+    function aktuellaFarger() {
+        var bg = hamtaInst("farg_bakgrund"), ac = hamtaInst("farg_accent");
+        if (/^#[0-9a-f]{6}$/i.test(bg) && /^#[0-9a-f]{6}$/i.test(ac)) {
+            var morkt = parseInt(bg.slice(1, 3), 16) + parseInt(bg.slice(3, 5), 16) + parseInt(bg.slice(5, 7), 16) < 200;
+            return { bakgrund: bg, accent: ac, text: morkt ? "#f3efe6" : "#2b2825" };
+        }
+        return hittaTema(hamtaInst("tema") || "klassisk");
+    }
+
+    // En liten "hemsida i miniatyr" för förslag och val
+    function miniHero(alt) {
+        var tema = alt.farger || hittaTema(alt.tema);
+        var stil = hittaStil(alt.stil);
+        var nt = NAMNTYPSNITT.filter(function (n) { return n.id && n.id === alt.namn_typsnitt; })[0];
+        var hero = skapa("span", "mini-hero");
+        hero.style.setProperty("--p-bg", tema.bakgrund);
+        hero.style.setProperty("--p-accent", tema.accent);
+        hero.style.setProperty("--p-text", tema.text);
+        if (alt.monster) hero.setAttribute("data-monster", alt.monster);
+        var dekor = alt.dekor || (stil.id === "botanisk" ? "eukalyptus" : "");
+        var ram = skapa("span", "mh-ram");
+        if (alt.ram) ram.setAttribute("data-ram", alt.ram);
+        else if (stil.id === "artdeco") ram.setAttribute("data-ram", "dubbel");
+        if (dekor && dekor !== "ingen") {
+            var d = skapa("span", "mh-dekor");
+            d.setAttribute("data-dekor", dekor);
+            if (dekor === "monogram") d.textContent = initialerAdmin();
+            ram.appendChild(d);
+        }
+        var n = namnProv(nt ? { font: nt.font, vikt: nt.vikt, kursiv: nt.kursiv, versaler: nt.versaler, storlek: nt.storlek } : stil, 0.95, alt.namn_layout === "staplad");
+        ram.appendChild(n);
+        ram.appendChild(skapa("span", "prov-knapp"));
+        hero.appendChild(ram);
+        return hero;
+    }
+
+    function initialerAdmin() {
+        var d = (hamtaInst("namn") || "Ebba & Axel").split(/\s+(?:&|och|\+)\s+/i);
+        return d.length === 2 ? d[0].charAt(0) + "&" + d[1].charAt(0) : d[0].charAt(0);
+    }
+
+    // Ritar en grupp med valkort. "prov" bygger det lilla provet för varje alternativ.
+    function visaValgrupp(behallare, alternativ, nyckel, standard, prov, klass) {
+        behallare.innerHTML = "";
+        var aktivt = hamtaInst(nyckel) || standard || "";
+        alternativ.forEach(function (a) {
+            var b = valKnapp(a.id === aktivt, function () { sattInst(nyckel, a.id); visaUtseende(); });
+            if (klass) b.classList.add(klass);
+            b.appendChild(prov(a));
+            b.appendChild(skapa("span", "valkort-namn", a.namn));
+            if (a.text) b.appendChild(skapa("span", "valkort-text", a.text));
+            behallare.appendChild(b);
+        });
+    }
+
     function visaUtseende() {
         var aktivStil = hamtaInst("stil") || "klassisk";
-        var aktivtTema = hamtaInst("tema") || "klassisk";
+        var farger = aktuellaFarger();
+        var panel = $('[data-panel="utseende"]');
+        panel.style.setProperty("--p-bg", farger.bakgrund);
+        panel.style.setProperty("--p-accent", farger.accent);
+        panel.style.setProperty("--p-text", farger.text);
+        var nu = {};
+        FORSLAG_NYCKLAR.forEach(function (k) { nu[k] = hamtaInst(k); });
+        var egenFarg = !!(hamtaInst("farg_bakgrund") && hamtaInst("farg_accent"));
 
+        // Förslag
         var forslag = $("#forslag");
         forslag.innerHTML = "";
         FORSLAG.forEach(function (f) {
-            var tema = hittaTema(f.tema), stil = hittaStil(f.stil);
-            var b = valKnapp(f.stil === aktivStil && f.tema === aktivtTema, function () {
-                sattInst("stil", f.stil);
-                sattInst("tema", f.tema);
+            var aktivt = !egenFarg && FORSLAG_NYCKLAR.every(function (k) {
+                return (f[k] || (k === "stil" || k === "tema" ? "klassisk" : "")) === (nu[k] || (k === "stil" || k === "tema" ? "klassisk" : ""));
+            });
+            var b = valKnapp(aktivt, function () {
+                FORSLAG_NYCKLAR.forEach(function (k) { sattInst(k, f[k] || ""); });
+                sattInst("farg_bakgrund", "");
+                sattInst("farg_accent", "");
                 visaUtseende();
             });
-            var prov = skapa("span", "forslag-prov");
-            prov.style.background = tema.bakgrund;
-            prov.style.color = tema.text;
-            prov.appendChild(namnProv(stil, 1.05));
-            var linje = skapa("span", "prov-linje");
-            linje.style.background = tema.accent;
-            prov.appendChild(linje);
-            var knapp = skapa("span", "prov-knapp");
-            knapp.style.background = tema.accent;
-            prov.appendChild(knapp);
-            b.appendChild(prov);
+            b.appendChild(miniHero(f));
             b.appendChild(skapa("span", "valkort-namn", f.namn));
             forslag.appendChild(b);
         });
 
-        var stilar = $("#stilar");
-        stilar.innerHTML = "";
-        STILAR.forEach(function (s) {
-            var b = valKnapp(s.id === aktivStil, function () { sattInst("stil", s.id); visaUtseende(); });
-            var prov = skapa("span", "stil-prov");
-            prov.appendChild(namnProv(s, 1.3));
-            b.appendChild(prov);
-            b.appendChild(skapa("span", "valkort-namn", s.namn));
-            b.appendChild(skapa("span", "valkort-text", s.text));
-            stilar.appendChild(b);
+        // Stil
+        visaValgrupp($("#stilar"), STILAR, "stil", "klassisk", function (s) {
+            var p = skapa("span", "stil-prov");
+            p.appendChild(namnProv(s, 1.3));
+            return p;
         });
 
+        // Färger, i grupper
         var teman = $("#teman");
         teman.innerHTML = "";
+        var aktivtTema = egenFarg ? "" : (hamtaInst("tema") || "klassisk");
+        var grupp = null, rad = null;
         TEMAN.forEach(function (t) {
-            var b = valKnapp(t.id === aktivtTema, function () { sattInst("tema", t.id); visaUtseende(); });
+            if (t.grupp !== grupp) {
+                grupp = t.grupp;
+                teman.appendChild(skapa("p", "fargrupp", grupp));
+                rad = skapa("div", "temarad");
+                teman.appendChild(rad);
+            }
+            var b = valKnapp(t.id === aktivtTema, function () {
+                sattInst("tema", t.id);
+                sattInst("farg_bakgrund", "");
+                sattInst("farg_accent", "");
+                visaUtseende();
+            });
             b.classList.add("tema");
-            var prov = skapa("span", "prov");
-            prov.style.background = t.bakgrund;
+            var p = skapa("span", "prov");
+            p.style.background = t.bakgrund;
             var prick = skapa("span");
             prick.style.background = t.accent;
-            prov.appendChild(prick);
-            b.appendChild(prov);
+            p.appendChild(prick);
+            b.appendChild(p);
             b.appendChild(skapa("span", "valkort-namn", t.namn));
-            teman.appendChild(b);
+            rad.appendChild(b);
         });
+        $("#egen-bakgrund").value = egenFarg ? hamtaInst("farg_bakgrund") : farger.bakgrund;
+        $("#egen-accent").value = egenFarg ? hamtaInst("farg_accent") : farger.accent;
+        $("#egen-farg").classList.toggle("vald", egenFarg);
+
+        // Namnen
+        visaValgrupp($("#namntypsnitt"), NAMNTYPSNITT, "namn_typsnitt", "", function (n) {
+            var p = skapa("span", "stil-prov liten-prov");
+            p.appendChild(namnProv(n.font ? n : hittaStil(aktivStil), 1.05));
+            return p;
+        });
+        visaValgrupp($("#namnlayout"), NAMNLAYOUTER, "namn_layout", "", function (n) {
+            var p = skapa("span", "stil-prov");
+            var nt = NAMNTYPSNITT.filter(function (x) { return x.id && x.id === hamtaInst("namn_typsnitt"); })[0];
+            p.appendChild(namnProv(nt || hittaStil(aktivStil), 1.05, n.id === "staplad"));
+            return p;
+        });
+
+        // Dekoration, ram, mönster
+        visaValgrupp($("#dekorer"), DEKORER, "dekor", "", function (d) {
+            var p = skapa("span", "dekor-prov");
+            if (!d.id) { p.textContent = "Följer stilen"; p.classList.add("tom"); return p; }
+            if (d.id === "ingen") { p.textContent = "–"; p.classList.add("tom"); return p; }
+            var m = skapa("span", "mh-dekor");
+            m.setAttribute("data-dekor", d.id);
+            if (d.id === "monogram") m.textContent = initialerAdmin();
+            p.appendChild(m);
+            return p;
+        });
+        visaValgrupp($("#ramar"), RAMAR, "ram", "", function (r) {
+            var p = skapa("span", "ram-prov");
+            var inre = skapa("span", "mh-ram", "<span>E&amp;A</span>");
+            if (r.id) inre.setAttribute("data-ram", r.id);
+            else inre.classList.add("tom");
+            p.appendChild(inre);
+            return p;
+        });
+        visaValgrupp($("#monster-val"), MONSTER, "monster", "", function (m) {
+            var p = skapa("span", "mini-hero monster-prov");
+            if (m.id) p.setAttribute("data-monster", m.id);
+            return p;
+        });
+
+        // Bildens placering
+        visaValgrupp($("#layouter"), LAYOUTER, "layout", "bakom", function (l) {
+            var p = skapa("span", "layout-prov");
+            p.setAttribute("data-layout", l.id);
+            p.innerHTML = '<span class="lp-foto"></span><span class="lp-text"><i></i><b></b><i></i></span>';
+            return p;
+        });
+        $("#layout-info").hidden = !!hamtaInst("bild");
     }
 
     function visaOmslag() {
@@ -1243,6 +1453,16 @@
             });
         });
         $("#ta-bort-omslag").addEventListener("click", function () { sattInst("bild", ""); visaOmslag(); visaOmslagsval(); });
+
+        // Egna färger
+        function sattEgenFarg() {
+            sattInst("farg_bakgrund", $("#egen-bakgrund").value);
+            sattInst("farg_accent", $("#egen-accent").value);
+            visaUtseende();
+        }
+        $("#egen-bakgrund").addEventListener("input", sattEgenFarg);
+        $("#egen-accent").addEventListener("input", sattEgenFarg);
+        $("#anvand-egen-farg").addEventListener("click", sattEgenFarg);
 
         // OSA
         $$("input[name=osa-typ]").forEach(function (r) {

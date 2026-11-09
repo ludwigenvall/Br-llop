@@ -8,8 +8,9 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✏️</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&family=Great+Vibes&family=DM+Serif+Display&family=Playfair+Display:ital,wght@0,500;1,500&family=Marcellus&family=Fraunces:ital,opsz,wght@1,9..144,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/redigera.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&family=Great+Vibes&family=DM+Serif+Display&family=Playfair+Display:ital,wght@0,500;1,500&family=Marcellus&family=Fraunces:ital,opsz,wght@1,9..144,600&family=Parisienne&family=Pinyon+Script&family=Allura&family=Bodoni+Moda:wght@500&family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/dekor.css?v=5">
+    <link rel="stylesheet" href="assets/redigera.css?v=5">
 </head>
 <body>
 
@@ -131,19 +132,48 @@
 
             <!-- UTSEENDE -->
             <div class="panel" data-panel="utseende" hidden>
-                <h2>Färdiga förslag</h2>
-                <p class="liten mjuk">Tryck på ett förslag för att prova det. Ni kan sedan justera stil och färg var för sig nedan.</p>
+                <nav class="hopplankar" aria-label="Delar av Utseende">
+                    <a href="#u-forslag">Förslag</a><a href="#u-stil">Stil</a><a href="#u-farg">Färg</a><a href="#u-namn">Namnen</a><a href="#u-dekor">Dekoration</a><a href="#u-ram">Ram</a><a href="#u-monster">Mönster</a><a href="#u-bild">Omslagsbild</a>
+                </nav>
+
+                <h2 id="u-forslag">Färdiga förslag</h2>
+                <p class="liten mjuk">Tryck på ett förslag för att prova det. Sedan kan ni ändra varje del för sig längre ner.</p>
                 <div class="forslag" id="forslag"></div>
 
-                <h2>Stil</h2>
-                <p class="liten mjuk">Typsnitt och dekorationer.</p>
+                <h2 id="u-stil">Stil</h2>
+                <p class="liten mjuk">Typsnitt och känsla för hela sidan.</p>
                 <div class="stilar" id="stilar"></div>
 
-                <h2>Färg</h2>
-                <div class="teman" id="teman"></div>
+                <h2 id="u-farg">Färg</h2>
+                <div id="teman"></div>
+                <div class="egen-farg" id="egen-farg">
+                    <p class="fargrupp">Egna färger</p>
+                    <div class="rad">
+                        <label class="farg-val"><input type="color" id="egen-bakgrund"> Bakgrund</label>
+                        <label class="farg-val"><input type="color" id="egen-accent"> Accent</label>
+                        <button class="knapp sekundar liten-knapp" type="button" id="anvand-egen-farg">Använd</button>
+                    </div>
+                    <p class="liten mjuk">Välj t.ex. färgen från inbjudan eller blommorna. Accentfärgen används till knappar, linjer och dekorationer.</p>
+                </div>
 
-                <h2>Omslagsbild</h2>
-                <p class="liten mjuk">Visas bakom namnen högst upp. Välj en liggande bild.</p>
+                <h2 id="u-namn">Namnen</h2>
+                <p class="fargrupp">Typsnitt</p>
+                <div class="stilar smala" id="namntypsnitt"></div>
+                <p class="fargrupp">Placering</p>
+                <div class="stilar" id="namnlayout"></div>
+
+                <h2 id="u-dekor">Dekoration</h2>
+                <p class="liten mjuk">Visas ovanför namnen och som avdelare under varje rubrik.</p>
+                <div class="stilar smala" id="dekorer"></div>
+
+                <h2 id="u-ram">Ram runt namnen</h2>
+                <div class="stilar smala" id="ramar"></div>
+
+                <h2 id="u-monster">Mönster</h2>
+                <p class="liten mjuk">Ett diskret mönster i bakgrunden högst upp.</p>
+                <div class="stilar smala" id="monster-val"></div>
+
+                <h2 id="u-bild">Omslagsbild</h2>
                 <div class="omslag" id="omslag"></div>
                 <div class="rad">
                     <button class="knapp sekundar" type="button" id="valj-omslag">Ladda upp bild…</button>
@@ -153,6 +183,9 @@
                     <p class="liten mjuk">…eller välj en av era uppladdade bilder:</p>
                     <div class="omslag-val" id="omslag-val"></div>
                 </div>
+                <p class="fargrupp">Bildens placering</p>
+                <p class="liten mjuk" id="layout-info">Välj en omslagsbild först så syns placeringen.</p>
+                <div class="stilar smala" id="layouter"></div>
             </div>
 
             <!-- GRUNDINFO -->
@@ -315,6 +348,6 @@
         setTimeout(visaStartfel, 20000);
     })();
 </script>
-<script src="assets/redigera.js?v=4"></script>
+<script src="assets/redigera.js?v=5"></script>
 </body>
 </html>

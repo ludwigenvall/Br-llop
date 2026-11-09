@@ -66,18 +66,22 @@ via *Glömt lösenordet?* på inloggningssidan.
 
 ### Utseende
 
-| Stil | Känsla |
-|---|---|
-| Klassisk | Tidlös serif, tunna linjer |
-| Romantisk | Handskrivna namn och små hjärtan |
-| Modern | Stram, vänsterställd och luftig |
-| Botanisk | Elegant serif med lövkvistar |
-| Art deco | Versaler, dubbel ram och romber |
-| Lekfull | Mjuk kursiv serif, rundade former och vågor |
+Under fliken **Utseende** finns 22 färdiga förslag som väljs med ett klick,
+t.ex. Toscana, Svart & guld, Trädgårdsfest och Skogsbröllop. Därefter går
+varje del att ändra för sig:
 
-Färger: Klassisk, Champagne, Sand, Salvia, Ros, Lavendel, Terrakotta,
-Bordeaux, Hav, Himmel, Svartvit, Natt och Skog. Alla stilar går att
-kombinera med alla färger.
+| Val | Alternativ |
+|---|---|
+| Stil | Klassisk, Romantisk, Modern, Botanisk, Art deco, Lekfull |
+| Färg | 22 färger i grupper (ljust, grönt & jordnära, rosa & lila, blått, djärvt, mörkt), eller helt egna färger |
+| Namnens typsnitt | 11 typsnitt, både handskrivna och klassiska |
+| Namnens placering | På en rad, eller under varandra med "&" emellan |
+| Dekoration | Blomsterranka, eukalyptus, olivkvist, vildblommor, palmer, hjärtan, stjärnor, monogram |
+| Ram runt namnen | Tunn, dubbel, rundad, valv, oval, hörn, kort |
+| Mönster | Prickar, ränder, rutigt, romber, vågor, små blommor, linne |
+| Omslagsbildens placering | Bakom, ovanför, under eller bredvid namnen |
+
+Dekorationer och mönster tar automatiskt den valda accentfärgen.
 
 Alla tidigare versioner sparas på GitHub (filen `innehall.md` → *History*),
 så inget kan förstöras på riktigt.

@@ -93,15 +93,68 @@ img { max-width: 100%; height: auto; border-radius: var(--radie); }
     position: relative;
 }
 
-.hero.med-bild { color: #fff; }
-.hero.med-bild::before {
+.hero { overflow: hidden; }
+.hero-inner { position: relative; z-index: 1; max-width: 640px; }
+
+/* Omslagsbilden. Var den hamnar styrs av "layout:" i innehall.md. */
+.hero-foto { display: none; }
+.hero.med-bild .hero-foto {
+    display: block;
+    position: relative;
+    z-index: 1;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Bakom namnen (standard) */
+.hero.bild-bakom { color: #fff; }
+.hero.bild-bakom .hero-foto { position: absolute; inset: 0; }
+.hero.bild-bakom .hero-foto::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.45));
+    background: linear-gradient(rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.5));
 }
 
-.hero-inner { position: relative; max-width: 640px; }
+/* Ovanför namnen */
+.hero.med-bild.bild-ovanfor { flex-direction: column; min-height: 0; padding: 0 1.25rem 4rem; }
+.hero.bild-ovanfor .hero-foto { width: calc(100% + 2.5rem); height: 62vh; height: 62svh; margin-bottom: 3.5rem; }
+
+/* Under namnen */
+.hero.med-bild.bild-under { flex-direction: column; min-height: 0; padding: 5rem 1.25rem 3rem; }
+.hero.bild-under .hero-foto {
+    order: 2;
+    width: 100%;
+    max-width: 1000px;
+    aspect-ratio: 3 / 2;
+    max-height: 72vh;
+    margin-top: 3.5rem;
+    border-radius: var(--radie);
+}
+
+/* Bredvid namnen */
+.hero.med-bild.bild-bredvid { padding: 0; align-items: stretch; }
+.hero.bild-bredvid .hero-foto { flex: 1 1 50%; min-height: 88svh; }
+.hero.bild-bredvid .hero-inner { flex: 1 1 50%; align-self: center; padding: 3rem 2rem; max-width: none; }
+.hero.bild-bredvid .hero-inner > * { max-width: 520px; margin-left: auto; margin-right: auto; }
+@media (max-width: 800px) {
+    .hero.med-bild.bild-bredvid { flex-direction: column; padding: 0 1.25rem 4rem; }
+    .hero.bild-bredvid .hero-foto { flex: none; min-height: 0; height: 58svh; width: calc(100% + 2.5rem); margin: 0 -1.25rem 3rem; }
+    .hero.bild-bredvid .hero-inner { padding: 0; }
+}
+
+/* Mönster bakom namnen ("monster:" i innehall.md) */
+[data-monster] .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    opacity: var(--monster-styrka, 0.12);
+    -webkit-mask: var(--monster) 0 0 / var(--monster-storlek) repeat;
+    mask: var(--monster) 0 0 / var(--monster-storlek) repeat;
+    pointer-events: none;
+}
+[data-monster="ingen"] .hero::before { content: none; }
 
 .hero-kicker {
     text-transform: uppercase;
@@ -119,6 +172,22 @@ img { max-width: 100%; height: auto; border-radius: var(--radie); }
     font-style: var(--namn-stil);
     line-height: 1.05;
 }
+
+/* Namnen: "Ebba", "&", "Axel" ligger i egna delar */
+.hero-names .och { color: var(--accent); font-style: italic; font-size: 0.8em; }
+.hero.bild-bakom .hero-names .och { color: inherit; opacity: 0.9; }
+[data-namn="staplad"] .hero-names .namn { display: block; }
+[data-namn="staplad"] .hero-names .och {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    font-size: 0.5em;
+    margin: 0.15em auto;
+    max-width: 9em;
+}
+[data-namn="staplad"] .hero-names .och::before,
+[data-namn="staplad"] .hero-names .och::after { content: ""; flex: 1; height: 1px; background: currentColor; opacity: 0.6; }
+[data-namn-versaler] .hero-names { text-transform: uppercase; letter-spacing: 0.08em; }
 
 .hero-date {
     font-family: var(--font-rubrik);
@@ -146,7 +215,7 @@ img { max-width: 100%; height: auto; border-radius: var(--radie); }
     -webkit-backdrop-filter: blur(4px);
 }
 [data-tema="natt"] .cd { background: rgba(255, 255, 255, 0.07); }
-.hero.med-bild .cd { background: rgba(255, 255, 255, 0.18); }
+.hero.bild-bakom .cd { background: rgba(255, 255, 255, 0.18); }
 
 .cd span {
     display: block;
@@ -301,7 +370,7 @@ main { padding: 0 1rem; }
 }
 .knapp:hover { filter: brightness(1.08); transform: translateY(-1px); }
 .knapp[hidden] { display: none; }
-.hero.med-bild .knapp { background: #fff; color: #2b2825; }
+.hero.bild-bakom .knapp { background: #fff; color: #2b2825; }
 
 /* ============================================
    OSA-FORMULÄR (när "osa:" är en Google-kalkylarkslänk)
@@ -487,8 +556,8 @@ main { padding: 0 1rem; }
 [data-stil="botanisk"] .hero-inner::before,
 [data-stil="botanisk"] .hero-inner::after { content: ""; display: block; margin: 0 auto 1.5rem; }
 [data-stil="botanisk"] .hero-inner::after { margin: 2rem auto 0; }
-[data-stil="botanisk"] .hero.med-bild .hero-inner::before,
-[data-stil="botanisk"] .hero.med-bild .hero-inner::after { background: #fff; }
+[data-stil="botanisk"] .hero.bild-bakom .hero-inner::before,
+[data-stil="botanisk"] .hero.bild-bakom .hero-inner::after { background: #fff; }
 
 /* Art deco: versaler, ram och romb */
 [data-stil="artdeco"] {
@@ -511,7 +580,7 @@ main { padding: 0 1rem; }
     outline-offset: 7px;
     padding: 3rem 1.5rem;
 }
-[data-stil="artdeco"] .hero.med-bild .hero-inner { border-color: #fff; outline-color: #fff; }
+[data-stil="artdeco"] .hero.bild-bakom .hero-inner { border-color: #fff; outline-color: #fff; }
 [data-stil="artdeco"] .sektion h2::after {
     width: 140px; height: 16px;
     -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 16'%3E%3Cpath d='M0 8H56M84 8H140' stroke='%23000' stroke-width='1'/%3E%3Cpath fill-rule='evenodd' d='M70 1L77 8L70 15L63 8ZM70 4.5L66.5 8L70 11.5L73.5 8Z' fill='%23000'/%3E%3Ccircle cx='59' cy='8' r='1.5'/%3E%3Ccircle cx='81' cy='8' r='1.5'/%3E%3C/svg%3E") center / contain no-repeat;
@@ -595,3 +664,146 @@ main { padding: 0 1rem; }
 .ljus-stang { top: 1rem; right: 1rem; }
 .ljus-fore { left: 1rem; top: 50%; transform: translateY(-50%); }
 .ljus-nasta { right: 1rem; top: 50%; transform: translateY(-50%); }
+
+/* ============================================
+   DEKORATIONER ("dekor:" i innehall.md)
+   Själva ritningarna finns i dekor.css.
+   ============================================ */
+[data-dekor] .hero-inner::before {
+    content: "";
+    display: block;
+    width: min(var(--dekor-bredd), 90vw);
+    height: var(--dekor-hojd);
+    margin: 0 auto 1.75rem;
+    background: var(--accent);
+    -webkit-mask: var(--dekor) center / contain no-repeat;
+    mask: var(--dekor) center / contain no-repeat;
+}
+[data-dekor] .hero-inner::after { content: none; }
+[data-dekor] .hero.bild-bakom .hero-inner::before { background: #fff; }
+[data-dekor] .sektion h2::after {
+    width: 120px;
+    height: 30px;
+    background: var(--accent);
+    -webkit-mask: var(--dekor) center / contain no-repeat;
+    mask: var(--dekor) center / contain no-repeat;
+}
+[data-dekor="ingen"] .hero-inner::before { content: none; }
+[data-dekor="ingen"] .sektion h2::after { -webkit-mask: none; mask: none; width: 48px; height: 1px; }
+[data-dekor="monogram"] .hero-inner::before {
+    content: attr(data-initialer);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 92px;
+    height: 92px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    background: none;
+    -webkit-mask: none;
+    mask: none;
+    font-family: var(--font-namn);
+    font-size: 1.6rem;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+}
+[data-dekor="monogram"] .hero.bild-bakom .hero-inner::before { color: #fff; background: none; }
+[data-dekor="monogram"] .sektion h2::after { -webkit-mask: none; mask: none; width: 48px; height: 1px; }
+
+/* ============================================
+   RAMAR RUNT NAMNEN ("ram:" i innehall.md)
+   ============================================ */
+html[data-ram] .hero-inner {
+    --ram: var(--accent);
+    width: min(100%, 580px);
+    border: 0;
+    outline: 0;
+    border-radius: 0;
+    padding: 3rem 1.75rem;
+}
+html[data-ram] .hero.bild-bakom .hero-inner { --ram: rgba(255, 255, 255, 0.85); }
+html[data-ram="ingen"] .hero-inner { padding: 0; width: auto; }
+html[data-ram="tunn"] .hero-inner { border: 1px solid var(--ram); }
+html[data-ram="dubbel"] .hero-inner { border: 1px solid var(--ram); outline: 1px solid var(--ram); outline-offset: 7px; }
+html[data-ram="rundad"] .hero-inner { border: 1px solid var(--ram); border-radius: 36px; }
+html[data-ram="bage"] .hero-inner { border: 1px solid var(--ram); border-radius: 999px 999px 0 0; padding-top: 5.5rem; }
+html[data-ram="oval"] .hero-inner { border: 1px solid var(--ram); border-radius: 50%; padding: 4.5rem 3rem; }
+html[data-ram="horn"] .hero-inner {
+    background:
+        linear-gradient(var(--ram), var(--ram)) top left / 46px 1px no-repeat,
+        linear-gradient(var(--ram), var(--ram)) top left / 1px 46px no-repeat,
+        linear-gradient(var(--ram), var(--ram)) top right / 46px 1px no-repeat,
+        linear-gradient(var(--ram), var(--ram)) top right / 1px 46px no-repeat,
+        linear-gradient(var(--ram), var(--ram)) bottom left / 46px 1px no-repeat,
+        linear-gradient(var(--ram), var(--ram)) bottom left / 1px 46px no-repeat,
+        linear-gradient(var(--ram), var(--ram)) bottom right / 46px 1px no-repeat,
+        linear-gradient(var(--ram), var(--ram)) bottom right / 1px 46px no-repeat;
+}
+html[data-ram="kort"] .hero-inner {
+    background: color-mix(in srgb, var(--yta) 88%, transparent);
+    color: var(--text);
+    border-radius: var(--radie);
+    box-shadow: var(--skugga);
+}
+html[data-ram="kort"] .hero.bild-bakom .cd { background: var(--yta-mjuk); }
+html[data-ram="kort"] .hero.bild-bakom .knapp { background: var(--accent); color: var(--accent-text); }
+html[data-ram="kort"] .hero.bild-bakom .hero-names .och { color: var(--accent); }
+html[data-ram="kort"][data-dekor] .hero.bild-bakom .hero-inner::before { background: var(--accent); }
+html[data-ram="kort"][data-dekor="monogram"] .hero.bild-bakom .hero-inner::before { background: none; color: var(--accent); }
+@media (max-width: 480px) {
+    html[data-ram="oval"] .hero-inner { padding: 4rem 1.5rem; }
+    html[data-ram="bage"] .hero-inner { padding-top: 4.5rem; }
+}
+
+/* ============================================
+   FLER FÄRGER (2026)
+   ============================================ */
+[data-tema="plommon"] {
+    --bakgrund: #f6f0f3; --yta-mjuk: #e9d9e2; --linje: #e6d6df;
+    --text: #2f1f2a; --text-mjuk: #6f5866; --accent: #6b2d5c;
+}
+[data-tema="oliv"] {
+    --bakgrund: #f3f2ea; --yta-mjuk: #e2e0cc; --linje: #dedcc8;
+    --text: #2c2d22; --text-mjuk: #636456; --accent: #5c6332;
+}
+[data-tema="mocka"] {
+    --bakgrund: #f3ece5; --yta-mjuk: #e3d3c3; --linje: #e0d2c4;
+    --text: #2f241d; --text-mjuk: #6b5a4d; --accent: #7a5340;
+}
+[data-tema="smorgul"] {
+    --bakgrund: #fdf8e6; --yta-mjuk: #f6e9b0; --linje: #eee3bb;
+    --text: #2f2a1c; --text-mjuk: #6a624d; --accent: #7d6514;
+}
+[data-tema="kornbla"] {
+    --bakgrund: #f0f4fb; --yta-mjuk: #d8e3f6; --linje: #d9e2f0;
+    --text: #1c2540; --text-mjuk: #535e78; --accent: #3f5fb0;
+}
+[data-tema="korsbar"] {
+    --bakgrund: #fbf3ef; --yta-mjuk: #f3d9d3; --linje: #ecd8d2;
+    --text: #2e1a17; --text-mjuk: #70504a; --accent: #b3262e;
+}
+[data-tema="persika"] {
+    --bakgrund: #fdf3ec; --yta-mjuk: #f8dccb; --linje: #f0dacb;
+    --text: #33241c; --text-mjuk: #765c4e; --accent: #b25734;
+}
+[data-tema="opal"] {
+    --bakgrund: #f6f4f8; --yta-mjuk: #e7e3ef; --linje: #e3e0ea;
+    --text: #2b2a33; --text-mjuk: #64616d; --accent: #746994;
+}
+[data-tema="opal"] .hero:not(.bild-bakom) { background: linear-gradient(135deg, #f7e6ee, #e9e6f7 50%, #e2f0f2); }
+[data-tema="svartguld"] {
+    --bakgrund: #111111; --yta: #1b1b1b; --yta-mjuk: #23211d; --linje: #333028;
+    --text: #f3efe6; --text-mjuk: #bdb6a6; --accent: #c9a45c; --accent-text: #111111;
+    --skugga: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+[data-tema="svartguld"] .cd { background: rgba(255, 255, 255, 0.06); }
+[data-tema="svartguld"] .osa-fel { color: #ffb4ab; }
+
+/* Egen färg: bakgrund och accent väljs fritt, resten räknas ut */
+[data-tema="egen"] {
+    --yta-mjuk: color-mix(in srgb, var(--accent) 16%, var(--bakgrund));
+    --linje: color-mix(in srgb, var(--accent) 22%, var(--bakgrund));
+    --text-mjuk: color-mix(in srgb, var(--text) 68%, var(--bakgrund));
+}
+[data-tema="egen"][data-morkt] { --yta: color-mix(in srgb, #ffffff 6%, var(--bakgrund)); --skugga: 0 8px 30px rgba(0, 0, 0, 0.35); }
+[data-tema="egen"][data-morkt] .cd { background: rgba(255, 255, 255, 0.07); }
